@@ -1,5 +1,33 @@
 package chess_pieces;
 
-public class Move {
+import board_construction.Board;
 
+public abstract class Move {
+
+	final Board board;
+	final ChessPiece movedPiece;
+	final int finalCoordinate;
+	
+	private Move(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
+		this.board = board;
+		this.movedPiece = movedPiece;
+		this.finalCoordinate = finalCoordinate;
+	}
+	
+	
+	public static final class NonTakingMove extends Move {
+		public NonTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
+			super(board, movedPiece, finalCoordinate);
+		}
+	}
+	
+	public static final class TakingMove extends Move {
+		final ChessPiece takenPiece;
+		public TakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate, final ChessPiece takenPiece) {
+			super(board, movedPiece, finalCoordinate);
+			this.takenPiece = takenPiece;
+		}
+	}
+	
+	
 }

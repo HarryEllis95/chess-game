@@ -13,13 +13,13 @@ public abstract class ChessTile {
 	
 	protected final int tileCoordinate;
 	
-	private ChessTile(int tileCoordinate) {  // private constructor for immutability 
+	private ChessTile(final int tileCoordinate) {  // private constructor for immutability 
 		this.tileCoordinate = tileCoordinate;
 	}
 	
 	private static Map<Integer, EmptyTile> createAllEmptyTiles() {
 		final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
-		for(int i=0; i<64; i++) {
+		for(int i=0; i<BoardUtils.NUM_TILES; i++) {
 			emptyTileMap.put(i, new EmptyTile(i));  // puts 64 empty tile objects into this map 
 		}
 		/* I don't want the map object to be mutable. A common way to achieve this is using Guava's ImmutableMap.
@@ -59,7 +59,7 @@ public abstract class ChessTile {
 		
 		private final ChessPiece pieceOnTile;
 		
-		private OccupiedTile(int tileCoordinate, ChessPiece pieceOnTile) {
+		private OccupiedTile(int tileCoordinate, final ChessPiece pieceOnTile) {
 			super(tileCoordinate);
 			this.pieceOnTile = pieceOnTile;
 		}

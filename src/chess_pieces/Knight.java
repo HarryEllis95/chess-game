@@ -21,7 +21,7 @@ public class Knight extends ChessPiece {
 	}
 	
 	
-	@Override public List<Move> determineAllowedMoves(Board board) {
+	@Override public Collection <Move> determineAllowedMoves(Board board) {
 		
 		int potentialFinalCoord;
 		final List<Move> allowedMoves = new ArrayList<>();
@@ -44,7 +44,8 @@ public class Knight extends ChessPiece {
 				final ChessTile potentialFinalTile = board.getTile(potentialFinalCoord);		
 				
 				if(!potentialFinalTile.isTileOccupied()) {
-					allowedMoves.add(new Move());      // allowed move as the tile the knight is moving to is not occupied
+					allowedMoves.add(new Move.NonTakingMove(board, this, potentialFinalCoord));      
+					// allowed move as the tile the knight is moving to is not occupied
 					
 				} else {
 					/* Even if the tile is occupied, of course the move might still be allowed if the piece is of 
@@ -53,7 +54,7 @@ public class Knight extends ChessPiece {
 					final PieceColour pieceColour = pieceAtDestination.getPieceColour();
 					
 					if(this.pieceColour != pieceColour) {
-						allowedMoves.add(new Move());
+						allowedMoves.add(new Move.TakingMove(board, this, potentialFinalCoord, pieceAtDestination));
 					}
 				}
 			}
@@ -63,8 +64,8 @@ public class Knight extends ChessPiece {
 	
 	/* I now need to deal with scenarios where the move might not be allowed as we would be moving off/around the board to get
 	 * to a tile. These can be worked out my considering the columns in which a knight could potentially move around the board
-	 * with a move (which doesn't break the isValidTileCoordinate condition) and what the relative offsets which could 
-	 * cause that would be. */
+	 * with a move (which doesn't break the isValidTileCoordinate condition), e.g columns 1,2,7,8, and what the 
+	 * relative offsets which could cause that would be. */
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
 		return BoardUtils.FIRST_COLUMN[currentPosition] && ((offset == -17) || (offset == -10) || (offset == 6) || (offset == 15)); 
 	}
