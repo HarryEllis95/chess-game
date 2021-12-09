@@ -14,6 +14,10 @@ public abstract class ChessPiece {
 		this.pieceColour = pieceColour;
 	}
 	
+	public PieceColour getPieceColour() {
+		return this.pieceColour;
+	}
+	
 	/* This is a very important method, which takes a given board and for the given piece it calculates its allowed moves */
-	public abstract List<Move> determineAllowedMoves(final Board board);
+	public abstract Collection<Move> determineAllowedMoves(final Board board);
 }
