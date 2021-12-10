@@ -64,5 +64,4 @@ public class Rook extends ChessPiece {
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int offset) {
 		return BoardUtils.EIGHTH_COLUMN[currentPosition] && (offset == 1);
 	}
-
 }
