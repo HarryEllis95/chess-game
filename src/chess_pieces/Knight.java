@@ -16,7 +16,7 @@ public class Knight extends ChessPiece {
 	/* These position offsets ares simple to work out when we consider the order as an 8x8 grid numbered 1-64,
 	 * think what the relative resulting change in board number would be after a possible knight move. */
 	
-	Knight(final int piecePosition, final PieceColour pieceColour) {
+	public Knight(final int piecePosition, final PieceColour pieceColour) {
 		super(piecePosition, pieceColour);
 	}
 	
