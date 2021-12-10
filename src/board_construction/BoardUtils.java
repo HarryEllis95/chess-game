@@ -4,7 +4,7 @@ package board_construction;
  * and methods which are static, and used in multiple classes in this project, to avoid cluttering the Board class. */
 public class BoardUtils {
 
-	// boolean arrays used for handling the column exclusions (see Knight class)
+	// boolean arrays used for handling the column exclusions 
 	public static final boolean[] FIRST_COLUMN = initialiseColumn(0);
 	public static final boolean[] SECOND_COLUMN = initialiseColumn(1);
 	public static final boolean[] SEVENTH_COLUMN = initialiseColumn(6);
@@ -13,6 +13,9 @@ public class BoardUtils {
 	public static final int NUM_TILES = 64;
 	public static final int TILES_IN_ROW = 8;
 	public static final int TILES_IN_COL = 8;
+	
+	public static final boolean[] SECOND_ROW = null;
+	public static final boolean[] SEVENTH_ROW = null;
 	
 	
 	private static boolean[] initialiseColumn(int columnNumber) {

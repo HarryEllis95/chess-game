@@ -8,10 +8,12 @@ public abstract class ChessPiece {
 
 	protected final int piecePosition;
 	protected final PieceColour pieceColour;
+	protected final boolean isFirstMove;
 	
 	ChessPiece(final int piecePosition, final PieceColour pieceColour) {
 		this.piecePosition = piecePosition;
 		this.pieceColour = pieceColour;
+		this.isFirstMove = false;
 	}
 	
 	public PieceColour getPieceColour() {
@@ -20,6 +22,10 @@ public abstract class ChessPiece {
 	
 	public int getPiecePosition() {
 		return this.piecePosition;
+	}
+	
+	public boolean isFirstMove() {
+		return this.isFirstMove;
 	}
 	
 	/* This is a very important method, which takes a given board and for the given piece it calculates its allowed moves */
