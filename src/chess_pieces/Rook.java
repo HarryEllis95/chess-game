@@ -10,7 +10,7 @@ import board_construction.ChessTile;
 
 public class Rook extends ChessPiece {
 	
-	public Rook(int piecePosition, PieceColour pieceColour) {
+	public Rook(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
 	}
 	

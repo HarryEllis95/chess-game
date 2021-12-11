@@ -12,7 +12,7 @@ import board_construction.ChessTile;
 
 public class Queen extends ChessPiece {
 
-	public Queen(int piecePosition, PieceColour pieceColour) {
+	public Queen(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
 	}
 	
@@ -22,8 +22,8 @@ public class Queen extends ChessPiece {
 	 * as it is simply a union of those two piece's moves. */	
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 	    
-	    final Collection<Move> equivalentRookMoves = new Rook(this.getPiecePosition(), 
-	    		this.getPieceColour()).determineAllowedMoves(board);
+	    final Collection<Move> equivalentRookMoves = new Rook(this.getPieceColour(), 
+	    		this.getPiecePosition()).determineAllowedMoves(board);
 	    final Collection<Move> equivalentBishopMoves = new Bishop(this.getPiecePosition(), 
 	    		this.getPieceColour()).determineAllowedMoves(board);
 	    

@@ -12,7 +12,7 @@ import board_construction.ChessTile;
 
 public class King extends ChessPiece {
 	
-	public King(int piecePosition, PieceColour pieceColour) {
+	public King(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
 	}
 	

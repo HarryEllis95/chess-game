@@ -12,7 +12,7 @@ import board_construction.ChessTile;
 
 public class Bishop extends ChessPiece {
 	
-	public Bishop(int piecePosition, PieceColour pieceColour) {
+	public Bishop(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
 	}
 	

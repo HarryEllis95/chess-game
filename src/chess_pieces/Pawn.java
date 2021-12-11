@@ -11,7 +11,7 @@ import board_construction.BoardUtils;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(int piecePosition, PieceColour pieceColour) {
+	public Pawn(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
 	}
 
