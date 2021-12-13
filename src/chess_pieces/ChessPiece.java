@@ -6,11 +6,13 @@ import board_construction.Board;
 
 public abstract class ChessPiece {
 
+	protected final PieceType pieceType;
 	protected final int piecePosition;
 	protected final PieceColour pieceColour;
 	protected final boolean isFirstMove;
 	
-	ChessPiece(final int piecePosition, final PieceColour pieceColour) {
+	ChessPiece(final PieceType pieceType, final int piecePosition, final PieceColour pieceColour) {
+		this.pieceType = pieceType;
 		this.piecePosition = piecePosition;
 		this.pieceColour = pieceColour;
 		this.isFirstMove = false;
@@ -28,18 +30,52 @@ public abstract class ChessPiece {
 		return this.isFirstMove;
 	}
 	
+	public PieceType getPieceType() {
+		return this.pieceType;
+	}
+	
 	/* This is a very important method, which takes a given board and for the given piece it calculates its allowed moves */
 	public abstract Collection<Move> determineAllowedMoves(final Board board);
 	
 	
 	public enum PieceType {
 		
-		PAWN("P"),
-		KNIGHT("N"),
-		BISHOP("B"),
-		ROOK("R"),
-		QUEEN("Q"),
-		KING("K");
+		PAWN("P") {
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+		},
+		KNIGHT("N") {
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+		},
+		BISHOP("B") {
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+		},
+		ROOK("R") {
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+		},
+		QUEEN("Q") {
+			@Override
+			public boolean isKing() {
+				return false;
+			}
+		},
+		KING("K") {
+			@Override
+			public boolean isKing() {
+				return true;
+			}
+		};
 		
 		private String pieceName;
 		
@@ -51,5 +87,7 @@ public abstract class ChessPiece {
 		@Override public String toString() {
 			return this.pieceName;
 		}
+		
+		public abstract boolean isKing();
 	}
 }

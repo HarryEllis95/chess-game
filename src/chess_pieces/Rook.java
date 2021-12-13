@@ -9,7 +9,7 @@ import chess_pieces.ChessPiece.PieceType;
 public class Rook extends ChessPiece {
 	
 	public Rook(PieceColour pieceColour, final int piecePosition) {
-		super(piecePosition, pieceColour);
+		super(PieceType.ROOK, piecePosition, pieceColour);
 	}
 	
 	@Override public String toString() {

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import chess_pieces.*;
+import player.BlackPlayer;
+import player.WhitePlayer;
 
 
 public class Board {
@@ -17,6 +19,9 @@ public class Board {
 	private final Collection<ChessPiece> whitePieces;
 	private final Collection<ChessPiece> blackPieces;
 	
+	private final WhitePlayer whitePlayer;
+	private final BlackPlayer blackPlayer;
+	
 	private Board(Builder builder) {
 		this.chessBoard = buildGameBoard(builder);
 		this.whitePieces = calculateActivePieces(this.chessBoard, PieceColour.WHITE);
@@ -24,6 +29,9 @@ public class Board {
 		
 		final Collection<Move> whiteStandardAllowedMoves = determineAllowedMoves(this.whitePieces);
 		final Collection<Move> blackStandardAllowedMoves = determineAllowedMoves(this.blackPieces);
+		
+		this.whitePlayer = new WhitePlayer(this, whiteAllowedMoves, blackAllowedMoves);
+		this.blackPlayer = new BlackPlayer(this, whiteAllowedMoves, blackAllowedMoves);
 	}
 	
 	/*The override of toString method is used to print the board in a ascii text way */
@@ -38,6 +46,15 @@ public class Board {
 		}
 		return builder.toString();
 	}
+		
+		
+		public Collection<ChessPiece> getBlackPieces() {
+			return this.blackPieces;
+		}
+		public Collection<ChessPiece> getWhitePieces() {
+			return this.whitePieces;
+		}
+		
 	
 	private Collection<Move> determineAllowedMoves(final Collection<ChessPiece> pieces) {
 		final List<Move> allowedMoves = new ArrayList<>();

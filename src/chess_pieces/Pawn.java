@@ -12,7 +12,7 @@ import chess_pieces.ChessPiece.PieceType;
 public class Pawn extends ChessPiece {
 
 	public Pawn(PieceColour pieceColour, final int piecePosition) {
-		super(piecePosition, pieceColour);
+		super(PieceType.PAWN, piecePosition, pieceColour);
 	}
 	
 	@Override public String toString() {

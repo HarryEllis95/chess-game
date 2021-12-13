@@ -21,7 +21,7 @@ public class Knight extends ChessPiece {
 	 * think what the relative resulting change in board number would be after a possible knight move. */
 	
 	public Knight(final PieceColour pieceColour, final int piecePosition) {
-		super(piecePosition, pieceColour);
+		super(PieceType.KNIGHT, piecePosition, pieceColour);
 	}
 	
 	
