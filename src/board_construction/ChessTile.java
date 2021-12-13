@@ -46,6 +46,10 @@ public abstract class ChessTile {
 			super(coordinate);
 		}
 		
+		@Override public String toString() {
+			return "-";  // If tile is not occupied, print it out with "-"
+		}
+		
 		@Override public boolean isTileOccupied() {
 			return false;
 		}
@@ -62,6 +66,11 @@ public abstract class ChessTile {
 		private OccupiedTile(int tileCoordinate, final ChessPiece pieceOnTile) {
 			super(tileCoordinate);
 			this.pieceOnTile = pieceOnTile;
+		}
+		
+		@Override public String toString() {
+			return getPiece().getPieceColour().isBlack() ? getPiece().toString().toLowerCase() :  
+					// If tile is occupied, print it out with that pieces toString()
 		}
 		
 		@Override public boolean isTileOccupied() {

@@ -19,6 +19,37 @@ public class Board {
 		this.chessBoard = buildGameBoard(builder);
 		this.whitePieces = calculateActivePieces(this.chessBoard, PieceColour.WHITE);
 		this.blackPieces = calculateActivePieces(this.chessBoard, PieceColour.BLACK);
+		
+		final Collection<Move> whiteStandardAllowedMoves = determineAllowedMoves(this.whitePieces);
+		final Collection<Move> blackStandardAllowedMoves = determineAllowedMoves(this.blackPieces);
+	}
+	
+	/*This method is used to print the board in a ascii text way */
+	private static String printBoard(final ChessTile tile) {
+		if(tile.isTileOccupied()) {
+			return tile.getPiece().getPieceColour().isBlack() ? tile.toString().toLowerCase() : tile.toString();
+		}
+		return tile.toString();
+	}
+	
+	@Override public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		for(int i=0; i < BoardUtils.NUM_TILES; i++) {
+			final String tileText = printBoard(this.chessBoard.get(i));
+			builder.append(String.format("%3s", tileText));
+			if((i+1) % BoardUtils.TILES_IN_ROW == 0) {
+				builder.append("\n");
+			}
+		}
+		return builder.toString();
+	}
+	
+	private Collection<Move> determineAllowedMoves(final Collection<ChessPiece> pieces) {
+		final List<Move> allowedMoves = new ArrayList<>();
+		for(final ChessPiece piece : pieces) {
+			allowedMoves.addAll(piece.determineAllowedMoves(this));
+		}
+		return ImmutableList.copyOf(allowedMoves);
 	}
 	
 	private Collection<ChessPiece> calculateActivePieces(List<ChessTile> chessBoard, PieceColour colour) {
@@ -31,20 +62,25 @@ public class Board {
 				}
 			}
 		}
-		return null;
+		return ImmutableList.copyOf(activePieces);
 	}
+	
 
 	public ChessTile getTile(final int tileCoordinate) {
 		return chessBoard.get(tileCoordinate);
 	}
 	
 	
-	/* This method is used to populate a list of tiles from 0->63, representing the chess board.
-	 * */
+	/* This method is used to populate a list of tiles from 0->63, representing the chess board.  */
 	private static List<ChessTile> buildGameBoard(final Builder builder) {
 		final ChessTile[] tiles = new ChessTile[BoardUtils.NUM_TILES];
 		for(int i=0; i<BoardUtils.NUM_TILES; i++) {
 			tiles[i] = ChessTile.createTile(i, builder.boardConfig.get(i));
+			/* Here we are using boardConfig to get the chess piece, if there is one on tile i, which we pass into the 
+			 * createTile method. We will get either a new OccupiedTile or if no piece is on the tile, so null is passed, 
+			 * we get an empty tile (see ChessTile.createAllEmptyTiles() method)        */
+			
+			
 		}
 		return ImmutableList.copyOf(tiles);
 	}
