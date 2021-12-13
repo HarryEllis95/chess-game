@@ -10,6 +10,7 @@ import java.util.Map;
 
 import chess_pieces.*;
 import player.BlackPlayer;
+import player.Player;
 import player.WhitePlayer;
 
 
@@ -27,8 +28,8 @@ public class Board {
 		this.whitePieces = calculateActivePieces(this.chessBoard, PieceColour.WHITE);
 		this.blackPieces = calculateActivePieces(this.chessBoard, PieceColour.BLACK);
 		
-		final Collection<Move> whiteStandardAllowedMoves = determineAllowedMoves(this.whitePieces);
-		final Collection<Move> blackStandardAllowedMoves = determineAllowedMoves(this.blackPieces);
+		final Collection<Move> whiteAllowedMoves = determineAllowedMoves(this.whitePieces);
+		final Collection<Move> blackAllowedMoves = determineAllowedMoves(this.blackPieces);
 		
 		this.whitePlayer = new WhitePlayer(this, whiteAllowedMoves, blackAllowedMoves);
 		this.blackPlayer = new BlackPlayer(this, whiteAllowedMoves, blackAllowedMoves);
@@ -47,6 +48,14 @@ public class Board {
 		return builder.toString();
 	}
 		
+		
+		public Player whitePlayer() {
+			return this.whitePlayer;
+		}
+		
+		public Player blackPlayer() {
+			return this.blackPlayer;
+		}
 		
 		public Collection<ChessPiece> getBlackPieces() {
 			return this.blackPieces;
