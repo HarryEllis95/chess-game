@@ -1,17 +1,19 @@
 package chess_pieces;
 
 import java.util.*;
-
-import com.google.common.collect.ImmutableList;
-
 import board_construction.Board;
 import board_construction.BoardUtils;
 import board_construction.ChessTile;
+import chess_pieces.ChessPiece.PieceType;
 
 public class Rook extends ChessPiece {
 	
 	public Rook(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
+	}
+	
+	@Override public String toString() {
+		return PieceType.ROOK.toString();
 	}
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-8, -1, 1, 8};
@@ -51,7 +53,7 @@ public class Rook extends ChessPiece {
 				}
 			}
 		}
-		return ImmutableList.copyOf(allowedMoves);
+		return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	

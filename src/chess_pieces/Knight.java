@@ -2,13 +2,17 @@ package chess_pieces;
 
 import java.util.*;
 
-import com.google.common.collect.ImmutableList;
 import board_construction.Board;
 import board_construction.ChessTile;
+import chess_pieces.ChessPiece.PieceType;
 import board_construction.BoardUtils;
 
 
 public class Knight extends ChessPiece {
+	
+	@Override public String toString() {
+		return PieceType.KNIGHT.toString();
+	}
 	
 	/* When considering the legal moves for a knight, there are (at most) 8 potential positions to move to from
 	 * current position. */
@@ -59,7 +63,7 @@ public class Knight extends ChessPiece {
 				}
 			}
 		}
-		return ImmutableList.copyOf(allowedMoves);    // see Guarva library 
+		return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	/* I now need to deal with scenarios where the move might not be allowed as we would be moving off/around the board to get

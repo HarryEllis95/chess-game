@@ -1,19 +1,24 @@
 package chess_pieces;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import board_construction.Board;
 import board_construction.BoardUtils;
 import board_construction.ChessTile;
+import chess_pieces.ChessPiece.PieceType;
 
 public class Queen extends ChessPiece {
 
 	public Queen(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
+	}
+	
+	@Override public String toString() {
+		return PieceType.QUEEN.toString();
 	}
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -8, -7, -1, 1, 7, 8, 9};  // union of Rook and Bishop
@@ -24,13 +29,13 @@ public class Queen extends ChessPiece {
 	    
 	    final Collection<Move> equivalentRookMoves = new Rook(this.getPieceColour(), 
 	    		this.getPiecePosition()).determineAllowedMoves(board);
-	    final Collection<Move> equivalentBishopMoves = new Bishop(this.getPiecePosition(), 
-	    		this.getPieceColour()).determineAllowedMoves(board);
+	    final Collection<Move> equivalentBishopMoves = new Bishop(this.getPieceColour(), 
+	    		this.getPiecePosition()).determineAllowedMoves(board);
 	    
 	    final List<Move> allowedMoves = new ArrayList<>(equivalentRookMoves);
 	    allowedMoves.addAll(equivalentBishopMoves);
 
-	    return ImmutableList.copyOf(allowedMoves);
+	    return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	

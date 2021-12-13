@@ -1,13 +1,15 @@
 package board_construction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableList;
-
 import chess_pieces.*;
+
 
 public class Board {
 	
@@ -24,18 +26,11 @@ public class Board {
 		final Collection<Move> blackStandardAllowedMoves = determineAllowedMoves(this.blackPieces);
 	}
 	
-	/*This method is used to print the board in a ascii text way */
-	private static String printBoard(final ChessTile tile) {
-		if(tile.isTileOccupied()) {
-			return tile.getPiece().getPieceColour().isBlack() ? tile.toString().toLowerCase() : tile.toString();
-		}
-		return tile.toString();
-	}
-	
-	@Override public String toString() {
+	/*The override of toString method is used to print the board in a ascii text way */
+		@Override public String toString() {
 		final StringBuilder builder = new StringBuilder();
 		for(int i=0; i < BoardUtils.NUM_TILES; i++) {
-			final String tileText = printBoard(this.chessBoard.get(i));
+			final String tileText = this.chessBoard.get(i).toString();
 			builder.append(String.format("%3s", tileText));
 			if((i+1) % BoardUtils.TILES_IN_ROW == 0) {
 				builder.append("\n");
@@ -49,7 +44,7 @@ public class Board {
 		for(final ChessPiece piece : pieces) {
 			allowedMoves.addAll(piece.determineAllowedMoves(this));
 		}
-		return ImmutableList.copyOf(allowedMoves);
+		return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	private Collection<ChessPiece> calculateActivePieces(List<ChessTile> chessBoard, PieceColour colour) {
@@ -62,7 +57,7 @@ public class Board {
 				}
 			}
 		}
-		return ImmutableList.copyOf(activePieces);
+		return Collections.unmodifiableList(activePieces);
 	}
 	
 
@@ -82,7 +77,7 @@ public class Board {
 			
 			
 		}
-		return ImmutableList.copyOf(tiles);
+		return Collections.unmodifiableList(Arrays.asList(tiles));
 	}
 	
 	public static Board createBoard() {
@@ -124,6 +119,7 @@ public class Board {
 		PieceColour nextToMove;
 		
 		public Builder() {
+			this.boardConfig = new HashMap<>();
 		}
 		
 		public Builder setPiece(final ChessPiece piece) {

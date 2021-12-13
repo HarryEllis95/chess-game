@@ -14,19 +14,28 @@ public class BoardUtils {
 	public static final int TILES_IN_ROW = 8;
 	public static final int TILES_IN_COL = 8;
 	
-	public static final boolean[] SECOND_ROW = null;
-	public static final boolean[] SEVENTH_ROW = null;
+	public static final boolean[] SECOND_ROW = initialiseRow(8);  // tile id that begins the row
+	public static final boolean[] SEVENTH_ROW = initialiseRow(48);
 	
 	
 	private static boolean[] initialiseColumn(int columnNumber) {
-		final boolean[] column = new boolean[64];
+		final boolean[] column = new boolean[NUM_TILES];
 		do { 
 			column[columnNumber] = true;
-			columnNumber += 8;
-		} while(columnNumber < 64);
+			columnNumber += TILES_IN_ROW;
+		} while(columnNumber < NUM_TILES);
 		/* What the above code does is for every tile in the first column, we set the corresponding boolean in the
 		 * column boolean array to true. Note, if we're at a8, doing columnNumber += 8 takes us to a7, and so on */
 		return column;
+	}
+	
+	private static boolean[] initialiseRow(int rowNumber) {
+		final boolean[] row = new boolean[NUM_TILES];
+		do {
+			row[rowNumber] = true;
+			rowNumber++;
+		} while(rowNumber % TILES_IN_ROW != 0);
+		return row;
 	}
 
 	// We use this method to make sure that our move results in a legal board position (within board constraints)

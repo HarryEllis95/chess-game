@@ -1,7 +1,6 @@
 package board_construction;
 
 import java.util.*;
-import com.google.common.collect.ImmutableMap;
 import chess_pieces.ChessPiece;
 
 
@@ -22,9 +21,9 @@ public abstract class ChessTile {
 		for(int i=0; i<BoardUtils.NUM_TILES; i++) {
 			emptyTileMap.put(i, new EmptyTile(i));  // puts 64 empty tile objects into this map 
 		}
-		/* I don't want the map object to be mutable. A common way to achieve this is using Guava's ImmutableMap.
-		 * I prefer this to using Collections.unmodifiableMap() although both can work here */
-		return ImmutableMap.copyOf(emptyTileMap);
+		/* I don't want the map object to be mutable. One way to achieve this is using Collections.unmodifiableMap(),
+		 * which means users have a read-only access */
+		return Collections.unmodifiableMap(emptyTileMap);
 	}
 	
 	public static ChessTile createTile(final int tileCoordinate, final ChessPiece piece) {
@@ -69,8 +68,9 @@ public abstract class ChessTile {
 		}
 		
 		@Override public String toString() {
-			return getPiece().getPieceColour().isBlack() ? getPiece().toString().toLowerCase() :  
-					// If tile is occupied, print it out with that pieces toString()
+			return getPiece().getPieceColour().isBlack() ? getPiece().toString().toLowerCase() : getPiece().toString();
+					/* If tile is occupied, print it out with that pieces toString(). If black, then shows up
+					 * as lower case, white as upper case - as convention */
 		}
 		
 		@Override public boolean isTileOccupied() {

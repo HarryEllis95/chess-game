@@ -2,17 +2,21 @@ package chess_pieces;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
 
 import board_construction.Board;
 import board_construction.BoardUtils;
+import chess_pieces.ChessPiece.PieceType;
 
 public class Pawn extends ChessPiece {
 
 	public Pawn(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
+	}
+	
+	@Override public String toString() {
+		return PieceType.PAWN.toString();
 	}
 
 	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16};
@@ -41,7 +45,7 @@ public class Pawn extends ChessPiece {
 				
 			}
 		}
-		return ImmutableList.copyOf(allowedMoves);
+		return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset, final PieceColour colour) {

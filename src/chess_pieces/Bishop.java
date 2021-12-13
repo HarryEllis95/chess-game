@@ -2,9 +2,6 @@ package chess_pieces;
 
 import java.util.*;
 
-
-import com.google.common.collect.ImmutableList;
-
 import board_construction.Board;
 import board_construction.BoardUtils;
 import board_construction.ChessTile;
@@ -14,6 +11,10 @@ public class Bishop extends ChessPiece {
 	
 	public Bishop(PieceColour pieceColour, final int piecePosition) {
 		super(piecePosition, pieceColour);
+	}
+	
+	@Override public String toString() {
+		return PieceType.BISHOP.toString();
 	}
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -7, 7, 9};
@@ -60,7 +61,7 @@ public class Bishop extends ChessPiece {
 				}
 			}
 		}
-		return ImmutableList.copyOf(allowedMoves);
+		return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	
