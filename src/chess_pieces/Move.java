@@ -14,10 +14,19 @@ public abstract class Move {
 		this.finalCoordinate = finalCoordinate;
 	}
 	
+	public int getDestinationCoordinate() {
+		return this.finalCoordinate;
+	}
+	
+	public abstract Board execute();
+	
 	
 	public static final class NonTakingMove extends Move {
 		public NonTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
+		}
+		@Override public Board execute() {
+			return null;
 		}
 	}
 	
@@ -27,7 +36,11 @@ public abstract class Move {
 			super(board, movedPiece, finalCoordinate);
 			this.takenPiece = takenPiece;
 		}
+		@Override public Board execute() {
+			return null;
+		}
 	}
+
 	
 	
 }

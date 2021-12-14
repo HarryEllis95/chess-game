@@ -22,6 +22,8 @@ public class Board {
 	
 	private final WhitePlayer whitePlayer;
 	private final BlackPlayer blackPlayer;
+	private final Player currentPlayer;
+	
 	
 	private Board(Builder builder) {
 		this.chessBoard = buildGameBoard(builder);
@@ -33,6 +35,7 @@ public class Board {
 		
 		this.whitePlayer = new WhitePlayer(this, whiteAllowedMoves, blackAllowedMoves);
 		this.blackPlayer = new BlackPlayer(this, whiteAllowedMoves, blackAllowedMoves);
+		this.currentPlayer = null;
 	}
 	
 	/*The override of toString method is used to print the board in a ascii text way */
@@ -55,6 +58,10 @@ public class Board {
 		
 		public Player blackPlayer() {
 			return this.blackPlayer;
+		}
+		
+		public Player currentPlayer() {
+			return this.currentPlayer;
 		}
 		
 		public Collection<ChessPiece> getBlackPieces() {

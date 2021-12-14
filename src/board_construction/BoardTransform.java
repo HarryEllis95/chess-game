@@ -16,5 +16,9 @@ public class BoardTransform {
 		this.move = move;
 		this.moveStatus = moveStatus;
 	}
+	
+	public MoveStatus getMoveStatus() {
+		return this.moveStatus;
+	}
 
 }
