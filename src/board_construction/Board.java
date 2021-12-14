@@ -71,6 +71,13 @@ public class Board {
 			return this.whitePieces;
 		}
 		
+		public Iterable<Move> getAllAllowedMoves() {
+			List<Move> allAllowedMoves = new ArrayList<>();
+			allAllowedMoves.addAll(this.whitePlayer.getAllowedMoves());
+			allAllowedMoves.addAll(this.blackPlayer.getAllowedMoves());
+		    return Collections.unmodifiableList(allAllowedMoves);
+		}
+		
 	
 	private Collection<Move> determineAllowedMoves(final Collection<ChessPiece> pieces) {
 		final List<Move> allowedMoves = new ArrayList<>();
@@ -150,6 +157,7 @@ public class Board {
 		
 		Map<Integer, ChessPiece> boardConfig;
 		PieceColour nextToMove;
+		Pawn enPassantPawn;
 		
 		public Builder() {
 			this.boardConfig = new HashMap<>();
@@ -166,6 +174,11 @@ public class Board {
 		
 		public Board build() {
 			return new Board(this);
+		}
+
+		public void setEnPassentPawn(Pawn enPassantPawn) {
+			this.enPassantPawn = enPassantPawn;
+			
 		}
 	}
 }
