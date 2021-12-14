@@ -18,6 +18,29 @@ public abstract class ChessPiece {
 		this.isFirstMove = false;
 	}
 	
+	// equals and hashCode overrides 
+	@Override public boolean equals(final Object other) {
+		if(this == other) {
+			return true;
+		}
+		if(!(other instanceof ChessPiece)) {
+			return false;
+		}
+		final ChessPiece otherPiece = (ChessPiece) other;
+		// The following returns the conditions required for pieces to be considered equals
+		return piecePosition == otherPiece.getPiecePosition() && pieceType == otherPiece.getPieceType() &&
+				pieceColour == otherPiece.getPieceColour() && isFirstMove == otherPiece.isFirstMove();
+	}
+	
+	@Override public int hashCode() {
+		int result = pieceType.hashCode();
+		result = 31 * result + pieceColour.hashCode();
+		result = 31 * result + piecePosition;
+		result = 31 * result + (isFirstMove ? 1 : 0);
+		return result;
+	}
+	
+	
 	public PieceColour getPieceColour() {
 		return this.pieceColour;
 	}
