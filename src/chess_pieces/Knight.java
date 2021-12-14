@@ -25,6 +25,12 @@ public class Knight extends ChessPiece {
 	}
 	
 	
+	@Override public Knight movePiece(final Move move) {
+		// Here we create the new knight, in the new location
+		return new Knight(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
+	
 	@Override public Collection <Move> determineAllowedMoves(Board board) {
 		
 		int potentialFinalCoord;

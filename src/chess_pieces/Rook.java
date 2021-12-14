@@ -17,6 +17,13 @@ public class Rook extends ChessPiece {
 	}
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-8, -1, 1, 8};
+	
+	
+	@Override public Rook movePiece(final Move move) {
+		// Here we create the new rook, in the new location
+		return new Rook(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
 
 	/* The logistics of this method is essentially the same as for the Bishop, so I have left it uncommented*/
 	@Override public Collection<Move> determineAllowedMoves(Board board) {

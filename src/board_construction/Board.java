@@ -35,7 +35,7 @@ public class Board {
 		
 		this.whitePlayer = new WhitePlayer(this, whiteAllowedMoves, blackAllowedMoves);
 		this.blackPlayer = new BlackPlayer(this, whiteAllowedMoves, blackAllowedMoves);
-		this.currentPlayer = null;
+		this.currentPlayer = builder.nextToMove.choosePlayer(this.whitePlayer, this.blackPlayer);
 	}
 	
 	/*The override of toString method is used to print the board in a ascii text way */

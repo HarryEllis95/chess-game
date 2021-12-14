@@ -20,6 +20,13 @@ public class Bishop extends ChessPiece {
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -7, 7, 9};
 	// These represent potentially allowed relative offsets (there's 4 allowed vectors in which bishop can move)
 	
+	
+	@Override public Bishop movePiece(final Move move) {
+		// Here we create the new bishop, in the new location
+		return new Bishop(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
+	
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 		
 		final List<Move> allowedMoves = new ArrayList<>();

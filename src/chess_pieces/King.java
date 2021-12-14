@@ -21,6 +21,13 @@ public class King extends ChessPiece {
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -8, -7, -1, 1, 7, 8, 9};
 	
+	
+	@Override public King movePiece(final Move move) {
+		// Here we create the new king, in the new location
+		return new King(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
+	
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 		
 		final List<Move> allowedMoves = new ArrayList<>();

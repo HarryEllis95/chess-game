@@ -23,6 +23,13 @@ public class Queen extends ChessPiece {
 	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -8, -7, -1, 1, 7, 8, 9};  // union of Rook and Bishop
 	
+	
+	@Override public Queen movePiece(final Move move) {
+		// Here we create the new queen, in the new location
+		return new Queen(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
+	
 	/* Having coded the classes governing the mechanics of the Rook and Bishop, the Queen class is then straightforward
 	 * as it is simply a union of those two piece's moves. */	
 	@Override public Collection<Move> determineAllowedMoves(Board board) {

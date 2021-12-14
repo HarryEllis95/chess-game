@@ -1,5 +1,8 @@
 package chess_pieces;
 
+import player.BlackPlayer;
+import player.Player;
+import player.WhitePlayer;
 
 /* Makes sense to use an enum to define the piece colour, as we just have 2 constant instances here,
  * with some defined behaviour    */
@@ -15,6 +18,10 @@ public enum PieceColour {
 		public boolean isWhite() {
 			return true;
 		}
+		@Override
+		public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
+			return whitePlayer;
+		}
 	}, 
 	
 	BLACK {
@@ -27,6 +34,10 @@ public enum PieceColour {
 		public boolean isWhite() {
 			return false;
 		}
+		@Override
+		public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
+			return blackPlayer;
+		}
 	};
 	
 	public abstract int getDirection();    
@@ -34,4 +45,6 @@ public enum PieceColour {
 	
 	public abstract boolean isWhite();
 	public abstract boolean isBlack();
+
+	public abstract Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer);
 }

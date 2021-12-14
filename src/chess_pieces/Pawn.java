@@ -20,6 +20,13 @@ public class Pawn extends ChessPiece {
 	}
 
 	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16};
+	
+	
+	@Override public Pawn movePiece(final Move move) {
+		// Here we create the new pawn, in the new location
+		return new Pawn(move.getMovedPiece().getPieceColour(), move.getDestinationCoordinate());
+	}
+	
 
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 

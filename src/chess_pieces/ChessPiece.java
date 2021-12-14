@@ -37,6 +37,8 @@ public abstract class ChessPiece {
 	/* This is a very important method, which takes a given board and for the given piece it calculates its allowed moves */
 	public abstract Collection<Move> determineAllowedMoves(final Board board);
 	
+	public abstract ChessPiece movePiece(Move move);
+	
 	
 	public enum PieceType {
 		
