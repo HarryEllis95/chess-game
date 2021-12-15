@@ -81,6 +81,10 @@ public abstract class ChessTile {
 			return this.pieceOnTile;
 		}
 	}
+
+	public int getTileCoordinate() {
+		return this.tileCoordinate;
+	}
 }
 
 

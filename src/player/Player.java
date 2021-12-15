@@ -23,7 +23,9 @@ public abstract class Player {
 	Player(final Board board, final Collection<Move> allowedMoves, final Collection<Move> opponentMoves) {
 		this.board = board;
 		this.playersKing = establishKing();
-		this.allowedMoves = allowedMoves;
+		allowedMoves.addAll(allowedMoves);
+		allowedMoves.addAll(calculateCastles(allowedMoves, opponentMoves));
+		this.allowedMoves =  Collections.unmodifiableCollection(allowedMoves);
 		/* What the following says is that - does the opponents moves attack the current plays kings position,
 		 * and get all those different attacks. If that is not empty, e.g there is a move which attacks the king,
 		 * that means that current player is in check.   */
@@ -39,7 +41,7 @@ public abstract class Player {
 	}
 	
 	
-	private static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
+	protected static Collection<Move> calculateAttacksOnTile(int piecePosition, Collection<Move> moves) {
 		final List<Move> attackMoves = new ArrayList<>();
 		/* Here we're looping through each one of the opponents moves and see if the final coordinate 
 		 * of that move is an attacking move. 	 */
@@ -114,11 +116,10 @@ public abstract class Player {
 		return new BoardTransform(transformBoard, move, MoveStatus.DONE);
 	}
 	
-	// abstract methods to be overriden in BlackPlayer and WhitePlayer classes
+	// abstract methods to be overridden in BlackPlayer and WhitePlayer classes
 	public abstract Collection<ChessPiece> getActivePiece();
 	public abstract PieceColour getColour();
 	public abstract Player getOpponent();
-	
-	
+	protected abstract Collection<Move> calculateCastles(Collection<Move> playerAllowed, Collection<Move> opponentAllowed);
 	
 }
