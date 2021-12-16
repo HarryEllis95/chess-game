@@ -20,5 +20,9 @@ public class BoardTransform {
 	public MoveStatus getMoveStatus() {
 		return this.moveStatus;
 	}
+	
+	public Board getTransformedBoard() {
+		return this.transitionBoard;
+	}
 
 }

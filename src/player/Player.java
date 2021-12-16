@@ -23,7 +23,6 @@ public abstract class Player {
 	Player(final Board board, final Collection<Move> allowedMoves, final Collection<Move> opponentMoves) {
 		this.board = board;
 		this.playersKing = establishKing();
-		allowedMoves.addAll(allowedMoves);
 		allowedMoves.addAll(calculateCastles(allowedMoves, opponentMoves));
 		this.allowedMoves =  Collections.unmodifiableCollection(allowedMoves);
 		/* What the following says is that - does the opponents moves attack the current plays kings position,

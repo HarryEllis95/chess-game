@@ -4,18 +4,25 @@ package board_construction;
  * and methods which are static, and used in multiple classes in this project, to avoid cluttering the Board class. */
 public class BoardUtils {
 
+	public static final int NUM_TILES = 64;
+	public static final int TILES_IN_ROW = 8;
+	public static final int TILES_IN_COL = 8;
+	
 	// boolean arrays used for handling the column exclusions 
 	public static final boolean[] FIRST_COLUMN = initialiseColumn(0);
 	public static final boolean[] SECOND_COLUMN = initialiseColumn(1);
 	public static final boolean[] SEVENTH_COLUMN = initialiseColumn(6);
 	public static final boolean[] EIGHTH_COLUMN = initialiseColumn(7);
 	
-	public static final int NUM_TILES = 64;
-	public static final int TILES_IN_ROW = 8;
-	public static final int TILES_IN_COL = 8;
-	
-	public static final boolean[] SECOND_ROW = initialiseRow(8);  // tile id that begins the row
-	public static final boolean[] SEVENTH_ROW = initialiseRow(48);
+	public static final boolean[] EIGHTH_RANK = initialiseRow(0);    // tile id that begins the row
+	public static final boolean[] SEVENTH_RANK = initialiseRow(8);  
+	public static final boolean[] SIXTH_RANK = initialiseRow(16);
+	public static final boolean[] FIFTH_RANK = initialiseRow(24);
+	public static final boolean[] FOURTH_RANK = initialiseRow(32);
+	public static final boolean[] THIRD_RANK = initialiseRow(40);
+	public static final boolean[] SECOND_RANK = initialiseRow(48);
+	public static final boolean[] FIRST_RANK = initialiseRow(56);
+
 	
 	
 	private static boolean[] initialiseColumn(int columnNumber) {

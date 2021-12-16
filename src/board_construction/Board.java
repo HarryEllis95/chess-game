@@ -84,7 +84,7 @@ public class Board {
 		for(final ChessPiece piece : pieces) {
 			allowedMoves.addAll(piece.determineAllowedMoves(this));
 		}
-		return Collections.unmodifiableList(allowedMoves);
+		return allowedMoves;
 	}
 	
 	private Collection<ChessPiece> calculateActivePieces(List<ChessTile> chessBoard, PieceColour colour) {

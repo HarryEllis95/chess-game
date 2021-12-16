@@ -46,8 +46,8 @@ public class Pawn extends ChessPiece {
 				allowedMoves.add(new Move.NonTakingMove(board, this, pos));
 				
 			} else if(pos == 16 && this.isFirstMove() && 
-					(BoardUtils.SECOND_ROW[this.piecePosition] && this.getPieceColour().isBlack()) || 
-					(BoardUtils.SEVENTH_ROW[this.piecePosition] && this.getPieceColour().isWhite())) {
+					(BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColour().isBlack()) || 
+					(BoardUtils.SEVENTH_RANK[this.piecePosition] && this.getPieceColour().isWhite())) {
 				
 				
 			}
