@@ -46,6 +46,7 @@ public class Table {
 	private final static Dimension OUTER_FRAME_SIZE = new Dimension(600,600);
 	private final static Dimension BOARD_PANEL_SIZE = new Dimension(400, 350);
 	private final static Dimension TILE_PANEL_SIZE = new Dimension(10, 10);
+	
 	private static String defaultPieceImagesPath = 
 			"C:\\Users\\44784\\Documents\\Programming\\Java\\Projects\\ChessGame\\chess-game\\pieces\\";
 	private static String defaultMiscPath = 

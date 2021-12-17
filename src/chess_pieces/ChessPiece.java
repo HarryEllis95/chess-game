@@ -59,6 +59,10 @@ public abstract class ChessPiece {
 		return this.pieceType;
 	}
 	
+	public int getPieceValue() {
+		return this.pieceType.getPieceValue();
+	}
+	
 	/* This is a very important method, which takes a given board and for the given piece it calculates its allowed moves */
 	public abstract Collection<Move> determineAllowedMoves(final Board board);
 	
@@ -67,7 +71,7 @@ public abstract class ChessPiece {
 	
 	public enum PieceType {
 		
-		PAWN("P") {
+		PAWN("P", 100) {
 			@Override
 			public boolean isKing() {
 				return false;
@@ -78,7 +82,7 @@ public abstract class ChessPiece {
 				return false;
 			}
 		},
-		KNIGHT("N") {
+		KNIGHT("N", 300) {
 			@Override
 			public boolean isKing() {
 				return false;
@@ -89,7 +93,7 @@ public abstract class ChessPiece {
 				return false;
 			}
 		},
-		BISHOP("B") {
+		BISHOP("B", 300) {
 			@Override
 			public boolean isKing() {
 				return false;
@@ -100,7 +104,7 @@ public abstract class ChessPiece {
 				return false;
 			}
 		},
-		ROOK("R") {
+		ROOK("R", 500) {
 			@Override
 			public boolean isKing() {
 				return false;
@@ -111,7 +115,7 @@ public abstract class ChessPiece {
 				return true;
 			}
 		},
-		QUEEN("Q") {
+		QUEEN("Q", 900) {
 			@Override
 			public boolean isKing() {
 				return false;
@@ -122,7 +126,7 @@ public abstract class ChessPiece {
 				return false;
 			}
 		},
-		KING("K") {
+		KING("K", 10000) {
 			@Override
 			public boolean isKing() {
 				return true;
@@ -136,9 +140,11 @@ public abstract class ChessPiece {
 		
 		
 		private String pieceName;
+		private int pieceValue;  // Input values are well recognised piece valuations in chess 
 		
-		private PieceType(String pieceName) {
+		PieceType(final String pieceName, final int pieceValue) {
 			this.pieceName = pieceName;
+			this.pieceValue = pieceValue;
 		}
 		
 		/* When invoking the toString() method on each piece I just want to delegate to the individual piece type */
@@ -146,6 +152,11 @@ public abstract class ChessPiece {
 			return this.pieceName;
 		}
 		
+		public int getPieceValue() {
+			return this.pieceValue;
+		}
+		
+		// abstract methods for the enum values to implement
 		public abstract boolean isKing();
 
 		public abstract boolean isRook();
