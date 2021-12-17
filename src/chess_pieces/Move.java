@@ -2,12 +2,14 @@ package chess_pieces;
 
 import board_construction.Board;
 import board_construction.Board.Builder;
+import board_construction.BoardUtils;
 
 public abstract class Move {
 
-	final Board board;
-	final ChessPiece movedPiece;
-	final int finalCoordinate;
+	protected final Board board;
+	protected final ChessPiece movedPiece;
+	protected final int finalCoordinate;
+	protected final boolean isFirstMove;
 	
 	public static final Move NULL_MOVE = new NullMove();
 	
@@ -15,6 +17,14 @@ public abstract class Move {
 		this.board = board;
 		this.movedPiece = movedPiece;
 		this.finalCoordinate = finalCoordinate;
+		this.isFirstMove = movedPiece.isFirstMove();
+	}
+	
+	private Move(final Board board, final int finalCoordinate) {
+		this.board = board;
+		this.finalCoordinate = finalCoordinate;
+		this.movedPiece = null;
+		this.isFirstMove = false;
 	}
 	
 	// equals and hashCode overrides 
@@ -27,7 +37,8 @@ public abstract class Move {
 		}
 		final Move otherMove = (Move) other;  // cast is fine, as checked above
 		// definition of an equals move 
-		return getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
+		return getCurrentCoordinate() == otherMove.getCurrentCoordinate() &&
+				getDestinationCoordinate() == otherMove.getDestinationCoordinate() &&
 				getMovedPiece().equals(otherMove.getMovedPiece());
 	}
 	
@@ -35,8 +46,8 @@ public abstract class Move {
 		int result = 1;
 		result = 31 + this.finalCoordinate;
 		result = 31 + this.movedPiece.hashCode();
-		return result;
-		
+		result = 31 + this.movedPiece.getPiecePosition();
+		return result;		
 	}
 	
 	
@@ -84,19 +95,26 @@ public abstract class Move {
 		builder.setMoveMaker(this.board.currentPlayer().getOpponent().getColour());
 		return builder.build();  
 	}
+	
+	
 
-
+// ####################################################################################################################
 	/* Define a bunch of subclasses to handle different move mechanics */
+	
 	public static class NonTakingMove extends Move {
 		public NonTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
 		        }
+		
 	      @Override public boolean equals(final Object other) {
 	            return this == other || other instanceof NonTakingMove && super.equals(other);
 		}
 	      @Override public int hashCode() {
 	    	  return super.hashCode();
 		}
+	      @Override public String toString( ) {
+	    	  return movedPiece.getPieceType().toString() + BoardUtils.getPositionAtCoordinate(this.finalCoordinate);
+	      }
 	}
 	
 	public static class TakingMove extends Move {
