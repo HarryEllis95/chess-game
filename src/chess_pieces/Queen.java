@@ -14,7 +14,11 @@ import chess_pieces.ChessPiece.PieceType;
 public class Queen extends ChessPiece {
 
 	public Queen(PieceColour pieceColour, final int piecePosition) {
-		super(PieceType.QUEEN, piecePosition, pieceColour);
+		super(PieceType.QUEEN, piecePosition, pieceColour, true);
+	}
+	
+	public Queen(PieceColour pieceColour, final int piecePosition, final boolean isFirstMove) {
+		super(PieceType.QUEEN, piecePosition, pieceColour, isFirstMove);
 	}
 	
 	@Override public String toString() {

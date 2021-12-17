@@ -10,7 +10,11 @@ import board_construction.ChessTile;
 public class Bishop extends ChessPiece {
 	
 	public Bishop(PieceColour pieceColour, final int piecePosition) {
-		super(PieceType.BISHOP, piecePosition, pieceColour);
+		super(PieceType.BISHOP, piecePosition, pieceColour, true);
+	}
+	
+	public Bishop(PieceColour pieceColour, final int piecePosition, final boolean isFirstMove) {
+		super(PieceType.BISHOP, piecePosition, pieceColour, isFirstMove);
 	}
 	
 	@Override public String toString() {

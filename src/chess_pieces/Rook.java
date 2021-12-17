@@ -8,8 +8,12 @@ import chess_pieces.ChessPiece.PieceType;
 
 public class Rook extends ChessPiece {
 	
-	public Rook(PieceColour pieceColour, final int piecePosition) {
-		super(PieceType.ROOK, piecePosition, pieceColour);
+	public Rook(final PieceColour pieceColour, final int piecePosition) {
+		super(PieceType.ROOK, piecePosition, pieceColour, true);
+	}
+	
+	public Rook(final PieceColour pieceColour, final int piecePosition, final boolean isFirstMove) {
+		super(PieceType.ROOK, piecePosition, pieceColour, isFirstMove);
 	}
 	
 	@Override public String toString() {

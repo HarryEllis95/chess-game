@@ -10,12 +10,14 @@ public abstract class ChessPiece {
 	protected final int piecePosition;
 	protected final PieceColour pieceColour;
 	protected final boolean isFirstMove;
+	private final int cachedHashCode; 
 	
-	ChessPiece(final PieceType pieceType, final int piecePosition, final PieceColour pieceColour) {
+	ChessPiece(final PieceType pieceType, final int piecePosition, final PieceColour pieceColour, boolean isFirstMove) {
 		this.pieceType = pieceType;
 		this.piecePosition = piecePosition;
 		this.pieceColour = pieceColour;
 		this.isFirstMove = false;
+		this.cachedHashCode = hashCode();
 	}
 	
 	// equals and hashCode overrides 

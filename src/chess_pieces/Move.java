@@ -87,11 +87,16 @@ public abstract class Move {
 
 
 	/* Define a bunch of subclasses to handle different move mechanics */
-	public static final class NonTakingMove extends Move {
+	public static class NonTakingMove extends Move {
 		public NonTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
+		        }
+	      @Override public boolean equals(final Object other) {
+	            return this == other || other instanceof NonTakingMove && super.equals(other);
 		}
-		
+	      @Override public int hashCode() {
+	    	  return super.hashCode();
+		}
 	}
 	
 	public static class TakingMove extends Move {
@@ -113,9 +118,7 @@ public abstract class Move {
 			return super.equals(otherTakingMove) && getAttackedPiece().equals(otherTakingMove.getAttackedPiece());
 		}
 		
-		@Override public int hashCode() {
-			return this.takenPiece.hashCode() + super.hashCode();
-		}
+
 		
 		@Override public Board execute() {
 			return null;
