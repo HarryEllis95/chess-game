@@ -46,8 +46,10 @@ public class Table {
 	private final static Dimension OUTER_FRAME_SIZE = new Dimension(600,600);
 	private final static Dimension BOARD_PANEL_SIZE = new Dimension(400, 350);
 	private final static Dimension TILE_PANEL_SIZE = new Dimension(10, 10);
-	private static String defaultPieceImagesPath = "C:\\Users\\44784\\Documents\\Programming\\Java\\Projects\\ChessGame\\chess-game\\pieces\\";
-	private static String defaultMiscPath = "C:\\Users\\44784\\Documents\\Programming\\Java\\Projects\\ChessGame\\chess-game\\misc\\";
+	private static String defaultPieceImagesPath = 
+			"C:\\Users\\44784\\Documents\\Programming\\Java\\Projects\\ChessGame\\chess-game\\pieces\\";
+	private static String defaultMiscPath = 
+			"C:\\Users\\44784\\Documents\\Programming\\Java\\Projects\\ChessGame\\chess-game\\misc\\";
 	
 	public Table() {
 		this.gameFrame = new JFrame("PlayGame");
@@ -164,6 +166,31 @@ public class Table {
 			}
 			validate();
 			repaint();
+		}
+	}
+	
+	
+	public static class MoveLog {
+		
+		private final List<Move> moves;
+		
+		MoveLog() {
+			this.moves = new ArrayList<>();
+		}
+		public List<Move> getMoves() {
+			return this.moves;
+		}
+		public void addMove(final Move move) {
+			this.moves.add(move);
+		}
+		public int size() {
+			return this.moves.size();
+		}
+		public Move removeMove(int index) {
+			return this.moves.remove(index);
+		}
+		public boolean removeMove(final Move move) {
+			return this.moves.remove(move);
 		}
 	}
 	
