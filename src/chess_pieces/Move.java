@@ -13,11 +13,11 @@ public abstract class Move {
 	
 	public static final Move NULL_MOVE = new NullMove();
 	
-	private Move(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
+	private Move(final Board board, final ChessPiece pieceMoved, final int finalCoordinate) {
 		this.board = board;
-		this.movedPiece = movedPiece;
+		this.movedPiece = pieceMoved;
 		this.finalCoordinate = finalCoordinate;
-		this.isFirstMove = movedPiece.isFirstMove();
+		this.isFirstMove = pieceMoved.isFirstMove();
 	}
 	
 	private Move(final Board board, final int finalCoordinate) {
@@ -52,7 +52,7 @@ public abstract class Move {
 	
 	
 	public int getCurrentCoordinate() {
-		return this.getMovedPiece().getPiecePosition();
+		return this.movedPiece.getPiecePosition();
 	}
 	
 	public int getDestinationCoordinate() {
@@ -152,26 +152,33 @@ public abstract class Move {
 	
     /* Moves relevant to pawns */
 	public static final class PawnMove extends Move {
+		
 		public PawnMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
 		}
 	}
 	
+	
 	public static class PawnTakingMove extends TakingMove {
+		
 		public PawnTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate,
 				final ChessPiece takenPiece) {
 			super(board, movedPiece, finalCoordinate, takenPiece);
 		}
 	}
 	
+	
 	public static final class PawnEnPassantTakingMove extends PawnTakingMove {
+		
 		public PawnEnPassantTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate,
 				final ChessPiece takenPiece) {
 			super(board, movedPiece, finalCoordinate, takenPiece);
 		}
 	}
 	
+	
 	public static final class PawnJumpMove extends Move {
+		
 		public PawnJumpMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
 		}
@@ -193,6 +200,10 @@ public abstract class Move {
 			builder.setEnPassentPawn(movedPawn);
 			builder.setMoveMaker(this.board.currentPlayer().getOpponent().getColour());
 			return builder.build();
+		}
+		
+		@Override public String toString() {
+			return BoardUtils.getPositionAtCoordinate(this.finalCoordinate);
 		}
 	}
 	
@@ -264,7 +275,7 @@ public abstract class Move {
 	
 	public static final class NullMove extends Move {
 		public NullMove() {
-			super(null, null, -1);
+			super(null, -1);
 			}
 		public Board execute() {
 			throw new RuntimeException("cannot execute null move!");

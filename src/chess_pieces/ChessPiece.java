@@ -16,7 +16,7 @@ public abstract class ChessPiece {
 		this.pieceType = pieceType;
 		this.piecePosition = piecePosition;
 		this.pieceColour = pieceColour;
-		this.isFirstMove = false;
+		this.isFirstMove = isFirstMove;
 		this.cachedHashCode = hashCode();
 	}
 	

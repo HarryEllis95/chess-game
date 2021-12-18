@@ -30,7 +30,11 @@ public class Table {
 
 	
 	private final JFrame gameFrame;
+	private final GameHistoryPanel gameHistoryPanel;
+	private final TakenPiecesDisplay takenPiecesDisplay;
 	private final BoardPanel boardPanel;
+	private final MoveLog moveLog;
+	
 	private Board chessBoard;
 	
 	private ChessTile sourceTile;
@@ -58,12 +62,18 @@ public class Table {
 		final JMenuBar tableMenuBar = createTableMenuBar();	
 		this.gameFrame.setJMenuBar(tableMenuBar);
 		this.gameFrame.setSize(OUTER_FRAME_SIZE);
-		
 		this.chessBoard = Board.createBoard();
+		
+		this.gameHistoryPanel = new GameHistoryPanel();
+		this.takenPiecesDisplay = new TakenPiecesDisplay();
+		
+		this.boardPanel = new BoardPanel();
+		this.moveLog = new MoveLog();
 		this.boardDirection = BoardDirection.NORMAL;
 		this.highlightAllowedMoves = false;
-		this.boardPanel = new BoardPanel();
+		this.gameFrame.add(this.takenPiecesDisplay, BorderLayout.WEST);
 		this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
+		this.gameFrame.add(this.gameHistoryPanel, BorderLayout.EAST);
 		this.gameFrame.setVisible(true);
 	}
 	
@@ -233,6 +243,7 @@ public class Table {
 							final BoardTransform transform = chessBoard.currentPlayer().makeMove(move);
 							if(transform.getMoveStatus().isDone()) {
 								chessBoard = transform.getTransformedBoard();
+								moveLog.addMove(move);
 							}
 							sourceTile = null;
 							destinationTile = null;
@@ -240,6 +251,8 @@ public class Table {
 						}
 						SwingUtilities.invokeLater(new Runnable() {
 							@Override public void run() {  // define thread task
+								gameHistoryPanel.redo(chessBoard, moveLog);
+								takenPiecesDisplay.redo(moveLog);
 								boardPanel.drawBoard(chessBoard);
 							}
 						});
