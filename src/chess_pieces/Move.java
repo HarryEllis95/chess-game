@@ -102,6 +102,7 @@ public abstract class Move {
 	/* Define a bunch of subclasses to handle different move mechanics */
 	
 	public static class NonTakingMove extends Move {
+		
 		public NonTakingMove(final Board board, final ChessPiece movedPiece, final int finalCoordinate) {
 			super(board, movedPiece, finalCoordinate);
 		        }
@@ -109,9 +110,9 @@ public abstract class Move {
 	      @Override public boolean equals(final Object other) {
 	            return this == other || other instanceof NonTakingMove && super.equals(other);
 		}
-	      @Override public int hashCode() {
-	    	  return super.hashCode();
-		}
+	      //@Override public int hashCode() {
+	    	//  return super.hashCode();
+		//}
 	      @Override public String toString( ) {
 	    	  return movedPiece.getPieceType().toString() + BoardUtils.getPositionAtCoordinate(this.finalCoordinate);
 	      }
@@ -136,11 +137,10 @@ public abstract class Move {
 			return super.equals(otherTakingMove) && getAttackedPiece().equals(otherTakingMove.getAttackedPiece());
 		}
 		
-
-		
-		@Override public Board execute() {
-			return null;
+		@Override public int hashCode() {
+			return this.takenPiece.hashCode() + super.hashCode();
 		}
+		
 		@Override public boolean isAttacking() {
 			return true;
 		}
@@ -277,9 +277,13 @@ public abstract class Move {
 		public NullMove() {
 			super(null, -1);
 			}
-		public Board execute() {
+		@Override public Board execute() {
 			throw new RuntimeException("cannot execute null move!");
 		}
+		@Override public int getCurrentCoordinate() {
+			return -1;
+		}
+		
 	}
 	
 	public static class MoveFactory {
