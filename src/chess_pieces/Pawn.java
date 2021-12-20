@@ -38,15 +38,16 @@ public class Pawn extends ChessPiece {
 
 		for (final int pos : POTENTIAL_MOVE_COORDS) {
 
+			// This ensures that for white we apply offset -8 and for black we apply +8 for white
 			final int potentialFinalCoord = this.piecePosition + (this.getPieceColour().getDirection() * pos);
-			// This ensures that for white we apply offset -8 and for black we apply 8
 			
 			if(!BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
 				continue;
 			}
+			
 			/* This first if clause handles single tile pawn moves, where relative offset is 8 (1 tile forwards) */
 			if(pos == 8 && !board.getTile(potentialFinalCoord).isTileOccupied()) {
-				allowedMoves.add(new Move.NonTakingMove(board, this, pos));
+				allowedMoves.add(new Move.PawnMove(board, this, potentialFinalCoord));
 			/* On a pawns first move it can jump 2 tiles, which is handled here */ 
 			} else if(pos == 16 && this.isFirstMove() && 
 					((BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColour().isBlack()) || 
@@ -68,15 +69,31 @@ public class Pawn extends ChessPiece {
 							
 							allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
 						}
+						/* Here I deal with the case where we have an EnPassant Pawn */
+					} else if(board.getEnPassantPawn() != null) {
+						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition + 
+								(-this.pieceColour.getDirection()))) {
+							final ChessPiece pieceOnPos = board.getEnPassantPawn();
+							if(this.pieceColour != pieceOnPos.getPieceColour()) {
+								allowedMoves.add(new Move.PawnEnPassantTakingMove(board, this, potentialFinalCoord, pieceOnPos));
+							}
+						}
 					}
-				}
-				else if(pos == 9 && !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
+				} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
 						BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isBlack())){
 					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
 						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
 						if(this.pieceColour != pieceAtDestination.getPieceColour()) {
 							
 							allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+						}
+					} else if(board.getEnPassantPawn() != null) {
+						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition - 
+								(-this.pieceColour.getDirection()))) {
+							final ChessPiece pieceOnPos = board.getEnPassantPawn();
+							if(this.pieceColour != pieceOnPos.getPieceColour()) {
+								allowedMoves.add(new Move.PawnEnPassantTakingMove(board, this, potentialFinalCoord, pieceOnPos));
+							}
 						}
 					}
 				}

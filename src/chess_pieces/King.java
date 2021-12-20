@@ -54,7 +54,7 @@ public class King extends ChessPiece {
 					final PieceColour pieceColour = pieceAtDestination.getPieceColour();
 					
 					if(this.pieceColour != pieceColour) {
-						allowedMoves.add(new Move.TakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+						allowedMoves.add(new Move.MajorTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
 					}
 				}
 			}

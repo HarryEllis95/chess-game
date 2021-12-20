@@ -23,12 +23,14 @@ public class Board {
 	private final WhitePlayer whitePlayer;
 	private final BlackPlayer blackPlayer;
 	private final Player currentPlayer;
+	private final Pawn enPassantPawn;
 	
 	
 	private Board(Builder builder) {
 		this.chessBoard = buildGameBoard(builder);
 		this.whitePieces = calculateActivePieces(this.chessBoard, PieceColour.WHITE);
 		this.blackPieces = calculateActivePieces(this.chessBoard, PieceColour.BLACK);
+		this.enPassantPawn = builder.enPassantPawn;
 		
 		final Collection<Move> whiteAllowedMoves = determineAllowedMoves(this.whitePieces);
 		final Collection<Move> blackAllowedMoves = determineAllowedMoves(this.blackPieces);
@@ -180,5 +182,10 @@ public class Board {
 			this.enPassantPawn = enPassantPawn;
 			
 		}
+	}
+
+
+	public Pawn getEnPassantPawn() {
+		return this.enPassantPawn;
 	}
 }
