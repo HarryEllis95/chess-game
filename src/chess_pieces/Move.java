@@ -50,6 +50,9 @@ public abstract class Move {
 		return result;		
 	}
 	
+	public Board getBoard() {
+		return this.board;
+	}
 	
 	public int getCurrentCoordinate() {
 		return this.movedPiece.getPiecePosition();
@@ -199,6 +202,50 @@ public abstract class Move {
 		@Override public String toString() {
 			return BoardUtils.getPositionAtCoordinate(this.movedPiece.getPiecePosition()).substring(0, 1) + "x" +
 						BoardUtils.getPositionAtCoordinate(this.finalCoordinate);
+		}
+	}
+	
+	
+	public static class PawnPromotion extends Move {
+		
+	final Move decoratedMove;
+	final Pawn promotedPawn;
+	
+		public PawnPromotion(final Move decoratedMove) {
+			super(decoratedMove.getBoard(), decoratedMove.getMovedPiece(), decoratedMove.getDestinationCoordinate());
+			this.decoratedMove = decoratedMove;
+			this.promotedPawn = (Pawn) decoratedMove.getMovedPiece();
+		}
+		
+		@Override public Board execute() {
+			final Board pawnMoveBoard = this.decoratedMove.execute();
+			final Board.Builder builder = new Builder();
+            pawnMoveBoard.currentPlayer().getActivePiece().stream().filter(
+            		piece -> !this.promotedPawn.equals(piece)).forEach(builder::setPiece);
+            pawnMoveBoard.currentPlayer().getOpponent().getActivePiece().forEach(builder::setPiece);
+            builder.setPiece(this.promotedPawn.getPromotionPiece().movePiece(this));
+            builder.setMoveMaker(pawnMoveBoard.currentPlayer().getColour());
+            return builder.build();
+		}
+		
+		@Override public boolean isAttacking() {
+			return this.decoratedMove.isAttacking();
+		}
+		
+		@Override public ChessPiece getAttackedPiece() {
+			return this.decoratedMove.getAttackedPiece();
+		}
+		
+		@Override public String toString() {
+			return "";
+		}
+		
+		@Override public boolean equals(final Object other) {
+			return this == other || other instanceof PawnPromotion && (super.equals(other));
+		}
+		
+		@Override public int hashCode() {
+			return decoratedMove.hashCode() + (31 * promotedPawn.hashCode());
 		}
 	}
 	

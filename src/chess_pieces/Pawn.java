@@ -10,6 +10,8 @@ import board_construction.BoardUtils;
 import chess_pieces.ChessPiece.PieceType;
 
 public class Pawn extends ChessPiece {
+	
+	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16, 7, 9};
 
 	public Pawn(PieceColour pieceColour, final int piecePosition) {
 		super(PieceType.PAWN, piecePosition, pieceColour, true);
@@ -19,12 +21,16 @@ public class Pawn extends ChessPiece {
 		super(PieceType.PAWN, piecePosition, pieceColour, isFirstMove);
 	}
 	
+	/* Currently in my chess engine, pawns will be automatically promoted to a queen. Implementing the ability for the user
+	 * to choose the promotion piece in the gui is a fair amount of extra code for such a rare circumstance, so this is not 
+	 * something I have coded yet, for simplicity. I plan on implementing this in the near future.  */
+	public ChessPiece getPromotionPiece() {
+		return new Queen(this.pieceColour, this.piecePosition, false);
+	}
+	
 	@Override public String toString() {
 		return PieceType.PAWN.toString();
 	}
-
-	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16};
-	
 	
 	@Override public Pawn movePiece(final Move move) {
 		// Here we create the new pawn, in the new location
@@ -47,8 +53,18 @@ public class Pawn extends ChessPiece {
 			
 			/* This first if clause handles single tile pawn moves, where relative offset is 8 (1 tile forwards) */
 			if(pos == 8 && !board.getTile(potentialFinalCoord).isTileOccupied()) {
-				allowedMoves.add(new Move.PawnMove(board, this, potentialFinalCoord));
-			/* On a pawns first move it can jump 2 tiles, which is handled here */ 
+				
+				if(this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
+					
+					/* The PawnPromotion move will 'wrap' the PawnMove */
+					allowedMoves.add(new Move.PawnPromotion(new Move.PawnMove(board, this, potentialFinalCoord)));
+				} else { 
+					allowedMoves.add(new Move.PawnMove(board, this, potentialFinalCoord));
+				}
+				
+			/* On a pawns first move it can jump 2 tiles, a 'pawn jump', which is handled with the following logic.
+			 * Also notice the logic dealing with the edge cases - this feels like a lot of boolean logic cramped
+			 * together but I didn't manage to get the Exclusion methods working as I did with the other pieces */ 
 			} else if(pos == 16 && this.isFirstMove() && 
 					((BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColour().isBlack()) || 
 					(BoardUtils.SEVENTH_RANK[this.piecePosition] && this.getPieceColour().isWhite()))) {
@@ -58,39 +74,58 @@ public class Pawn extends ChessPiece {
 						!board.getTile(potentialFinalCoord).isTileOccupied()) {
 					allowedMoves.add(new Move.PawnJumpMove(board, this, potentialFinalCoord));
 				}
-			}
-				/* Here I deal with the edge cases. This feels like a lot of boolean logic cramped
-				 * together but I didn't manage to get the Exclusion methods working as I did with the other pieces	 */
-			else if(pos == 7  && !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
+				
+			} else if(pos == 7  && !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
 						BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isBlack())) {
+				
 					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
+						
 						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
+						
 						if(this.pieceColour != pieceAtDestination.getPieceColour()) {
 							
-							allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+							if (this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
+								allowedMoves.add(new Move.PawnPromotion(
+										new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination)));
+							} else {
+								allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+							}
 						}
 						/* Here I deal with the case where we have an EnPassant Pawn */
 					} else if(board.getEnPassantPawn() != null) {
+						
 						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition + 
 								(-this.pieceColour.getDirection()))) {
 							final ChessPiece pieceOnPos = board.getEnPassantPawn();
+							
 							if(this.pieceColour != pieceOnPos.getPieceColour()) {
 								allowedMoves.add(new Move.PawnEnPassantTakingMove(board, this, potentialFinalCoord, pieceOnPos));
 							}
 						}
 					}
+					
 				} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
 						BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isBlack())){
+					
 					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
+						
 						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
-						if(this.pieceColour != pieceAtDestination.getPieceColour()) {
-							
-							allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+						
+						if(this.pieceColour != pieceAtDestination.getPieceColour()) {			
+							if(this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
+								allowedMoves.add(new Move.PawnPromotion(
+										new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination)));
+							} else {
+								allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+							}
 						}
+						
 					} else if(board.getEnPassantPawn() != null) {
+						
 						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition - 
-								(-this.pieceColour.getDirection()))) {
+								(-this.pieceColour.getDirection()))) {						
 							final ChessPiece pieceOnPos = board.getEnPassantPawn();
+							
 							if(this.pieceColour != pieceOnPos.getPieceColour()) {
 								allowedMoves.add(new Move.PawnEnPassantTakingMove(board, this, potentialFinalCoord, pieceOnPos));
 							}
@@ -100,6 +135,7 @@ public class Pawn extends ChessPiece {
 			}
 		return Collections.unmodifiableList(allowedMoves);
 	}
+	
 	
 	
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset, final PieceColour colour) {

@@ -1,5 +1,6 @@
 package chess_pieces;
 
+import board_construction.BoardUtils;
 import player.BlackPlayer;
 import player.Player;
 import player.WhitePlayer;
@@ -22,6 +23,10 @@ public enum PieceColour {
 		public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
 			return whitePlayer;
 		}
+		@Override
+		public boolean isPawnPromotionSquare(int pos) {
+			return BoardUtils.EIGHTH_RANK[pos];
+		}
 	}, 
 	
 	BLACK {
@@ -38,6 +43,10 @@ public enum PieceColour {
 		public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
 			return blackPlayer;
 		}
+		@Override
+		public boolean isPawnPromotionSquare(int pos) {
+			return BoardUtils.FIRST_RANK[pos];
+		}
 	};
 	
 	public abstract int getDirection();    
@@ -47,4 +56,6 @@ public enum PieceColour {
 	public abstract boolean isBlack();
 
 	public abstract Player choosePlayer(WhitePlayer whitePlayer, BlackPlayer blackPlayer);
+	
+	public abstract boolean isPawnPromotionSquare(int pos);
 }
