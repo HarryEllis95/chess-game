@@ -1,4 +1,5 @@
+/run_tests/
+/board_construction/
+/player/
 /chess_pieces/
 /gui/
-/player/
-/board_construction/

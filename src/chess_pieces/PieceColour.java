@@ -25,7 +25,7 @@ public enum PieceColour {
 		}
 		@Override
 		public boolean isPawnPromotionSquare(int pos) {
-			return BoardUtils.EIGHTH_RANK[pos];
+			return BoardUtils.EIGHTH_RANK.get(pos);
 		}
 	}, 
 	
@@ -45,7 +45,7 @@ public enum PieceColour {
 		}
 		@Override
 		public boolean isPawnPromotionSquare(int pos) {
-			return BoardUtils.FIRST_RANK[pos];
+			return BoardUtils.FIRST_RANK.get(pos);
 		}
 	};
 	

@@ -332,14 +332,13 @@ public class Table {
 		
 		private void assignTileColour() {
 			// workings out tile id's corresponding to dark or light tile colour - simple algorithm 
-			if(BoardUtils.FIRST_RANK[this.tileId] || BoardUtils.THIRD_RANK[this.tileId] ||
-					BoardUtils.FIFTH_RANK[this.tileId] || BoardUtils.SEVENTH_RANK[this.tileId]) {
+			if(BoardUtils.FIRST_RANK.get(this.tileId) || BoardUtils.THIRD_RANK.get(this.tileId) ||
+					BoardUtils.FIFTH_RANK.get(this.tileId) || BoardUtils.SEVENTH_RANK.get(this.tileId)) {
 				setBackground(this.tileId % 2 == 0 ? lightTileColour : darkTileColour);
-			} else if (BoardUtils.SECOND_RANK[this.tileId] || BoardUtils.FOURTH_RANK[this.tileId] ||
-					BoardUtils.SIXTH_RANK[this.tileId] || BoardUtils.EIGHTH_RANK[this.tileId]) {
+			} else if (BoardUtils.SECOND_RANK.get(this.tileId) || BoardUtils.FOURTH_RANK.get(this.tileId) ||
+					BoardUtils.SIXTH_RANK.get(this.tileId) || BoardUtils.EIGHTH_RANK.get(this.tileId)) {
 				setBackground(this.tileId % 2 != 0 ? lightTileColour : darkTileColour);
 			}
-			
 		}
 	}
 }

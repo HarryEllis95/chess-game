@@ -136,6 +136,7 @@ public class Board {
 		for(int i=8; i<16; i++) {
 			builder.setPiece(new Pawn(PieceColour.BLACK, i));
 		}
+		
 		// Construct white pieces
 		for(int i=48; i<56; i++) {
 			builder.setPiece(new Pawn(PieceColour.WHITE, i));

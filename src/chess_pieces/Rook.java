@@ -71,10 +71,10 @@ public class Rook extends ChessPiece {
 	/* The only real difference between this class and the Bishop class is the edge conditions to consider are 
 	 * slightly different */
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.FIRST_COLUMN[currentPosition] && (offset == -1);
+		return BoardUtils.FIRST_COLUMN.get(currentPosition) && (offset == -1);
 	}
 	
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.EIGHTH_COLUMN[currentPosition] && (offset == 1);
+		return BoardUtils.EIGHTH_COLUMN.get(currentPosition) && (offset == 1);
 	}
 }

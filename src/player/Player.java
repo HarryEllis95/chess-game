@@ -18,17 +18,17 @@ public abstract class Player {
 	protected final Board board;
 	protected final King playersKing;
 	protected final Collection<Move> allowedMoves;
-	private final boolean isInCheck;
+	protected final boolean isInCheck;
 	
 	Player(final Board board, final Collection<Move> allowedMoves, final Collection<Move> opponentMoves) {
 		this.board = board;
 		this.playersKing = establishKing();
-		allowedMoves.addAll(calculateCastles(allowedMoves, opponentMoves));
-		this.allowedMoves =  Collections.unmodifiableCollection(allowedMoves);
 		/* What the following says is that - does the opponents moves attack the current plays kings position,
 		 * and get all those different attacks. If that is not empty, e.g there is a move which attacks the king,
 		 * that means that current player is in check.   */
 		this.isInCheck = !(Player.calculateAttacksOnTile(this.playersKing.getPiecePosition(), opponentMoves).isEmpty());
+		allowedMoves.addAll(calculateCastles(allowedMoves, opponentMoves));
+		this.allowedMoves =  Collections.unmodifiableCollection(allowedMoves);
 	}
 	
 	public King getPlayerKing() {

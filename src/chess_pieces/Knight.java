@@ -81,19 +81,19 @@ public class Knight extends ChessPiece {
 	 * with a move (which doesn't break the isValidTileCoordinate condition), e.g columns 1,2,7,8, and what the 
 	 * relative offsets which could cause that would be. */
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.FIRST_COLUMN[currentPosition] && ((offset == -17) || (offset == -10) || (offset == 6) || (offset == 15)); 
+		return BoardUtils.FIRST_COLUMN.get(currentPosition) && ((offset == -17) || (offset == -10) || (offset == 6) || (offset == 15)); 
 	}
 	
 	private static boolean isSecondColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.SECOND_COLUMN[currentPosition] && ((offset == -10) || (offset == 6)); 
+		return BoardUtils.SECOND_COLUMN.get(currentPosition) && ((offset == -10) || (offset == 6)); 
 	}
 	
 	private static boolean isSeventhColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.SEVENTH_COLUMN[currentPosition] && ((offset == -6) || (offset == 10));
+		return BoardUtils.SEVENTH_COLUMN.get(currentPosition) && ((offset == -6) || (offset == 10));
 	}
 	
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.EIGHTH_COLUMN[currentPosition] && ((offset == -15) || (offset == -6) || (offset == 10) || (offset == 17));
+		return BoardUtils.EIGHTH_COLUMN.get(currentPosition) && ((offset == -15) || (offset == -6) || (offset == 10) || (offset == 17));
 	}
 	
 	/* Note - another, and potentially better way the above could be done is to use the absolute value of the difference 

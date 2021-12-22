@@ -52,11 +52,11 @@ public class Queen extends ChessPiece {
 	
 	/*  */
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.FIRST_COLUMN[currentPosition] && (offset == -1 || offset == -9 || offset == 7);
+		return BoardUtils.FIRST_COLUMN.get(currentPosition) && (offset == -1 || offset == -9 || offset == 7);
 	}
 	
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.EIGHTH_COLUMN[currentPosition] && (offset == -7 || offset == 1 || offset == 9);
+		return BoardUtils.EIGHTH_COLUMN.get(currentPosition) && (offset == -7 || offset == 1 || offset == 9);
 	}
 }
 

@@ -45,7 +45,7 @@ public class Pawn extends ChessPiece {
 		for (final int pos : POTENTIAL_MOVE_COORDS) {
 
 			// This ensures that for white we apply offset -8 and for black we apply +8 for white
-			final int potentialFinalCoord = this.piecePosition + (this.getPieceColour().getDirection() * pos);
+			int potentialFinalCoord = this.piecePosition + (this.pieceColour.getDirection() * pos);
 			
 			if(!BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
 				continue;
@@ -55,7 +55,6 @@ public class Pawn extends ChessPiece {
 			if(pos == 8 && !board.getTile(potentialFinalCoord).isTileOccupied()) {
 				
 				if(this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
-					
 					/* The PawnPromotion move will 'wrap' the PawnMove */
 					allowedMoves.add(new Move.PawnPromotion(new Move.PawnMove(board, this, potentialFinalCoord)));
 				} else { 
@@ -66,8 +65,9 @@ public class Pawn extends ChessPiece {
 			 * Also notice the logic dealing with the edge cases - this feels like a lot of boolean logic cramped
 			 * together but I didn't manage to get the Exclusion methods working as I did with the other pieces */ 
 			} else if(pos == 16 && this.isFirstMove() && 
-					((BoardUtils.SECOND_RANK[this.piecePosition] && this.getPieceColour().isBlack()) || 
-					(BoardUtils.SEVENTH_RANK[this.piecePosition] && this.getPieceColour().isWhite()))) {
+					((BoardUtils.SECOND_RANK.get(this.piecePosition) && this.pieceColour.isBlack()) || 
+					(BoardUtils.SEVENTH_RANK.get(this.piecePosition) && this.pieceColour.isWhite()))) {
+				System.out.println("I reached here");
 				final int behindPotentialFinalCoord = this.piecePosition + (this.pieceColour.getDirection() * 8);
 				// Make sure the pawn is in it's starting position and the tile it's jumping to is not occupied
 				if(!board.getTile(behindPotentialFinalCoord).isTileOccupied() && 
@@ -75,9 +75,8 @@ public class Pawn extends ChessPiece {
 					allowedMoves.add(new Move.PawnJumpMove(board, this, potentialFinalCoord));
 				}
 				
-			} else if(pos == 7  && !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
-						BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isBlack())) {
-				
+			} else if(pos == 7  && !((BoardUtils.EIGHTH_COLUMN.get(this.piecePosition) && this.pieceColour.isWhite()) ||
+						BoardUtils.FIRST_COLUMN.get(this.piecePosition) && this.pieceColour.isBlack())) {
 					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
 						
 						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
@@ -104,9 +103,9 @@ public class Pawn extends ChessPiece {
 						}
 					}
 					
-				} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.getPieceColour().isWhite()) ||
-						BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.getPieceColour().isBlack())){
-					
+				} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN.get(this.piecePosition) && this.pieceColour.isWhite()) ||
+						BoardUtils.EIGHTH_COLUMN.get(this.piecePosition) && this.pieceColour.isBlack())){
+
 					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
 						
 						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
@@ -139,13 +138,13 @@ public class Pawn extends ChessPiece {
 	
 	
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset, final PieceColour colour) {
-	    return (candidateOffset == 7 && (BoardUtils.FIRST_COLUMN[currentPosition] && colour.isBlack())) ||
-	            (candidateOffset == 9 && (BoardUtils.FIRST_COLUMN[currentPosition] && colour.isWhite()));
+	    return (candidateOffset == 7 && (BoardUtils.FIRST_COLUMN.get(currentPosition) && colour.isBlack())) ||
+	            (candidateOffset == 9 && (BoardUtils.FIRST_COLUMN.get(currentPosition) && colour.isWhite()));
 	}
 
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset, final PieceColour colour){
-	    return (candidateOffset == 7 && (BoardUtils.EIGHTH_COLUMN[currentPosition] && colour.isWhite())) ||
-	            (candidateOffset == 9 && (BoardUtils.EIGHTH_COLUMN[currentPosition] && colour.isBlack()));
+	    return (candidateOffset == 7 && (BoardUtils.EIGHTH_COLUMN.get(currentPosition) && colour.isWhite())) ||
+	            (candidateOffset == 9 && (BoardUtils.EIGHTH_COLUMN.get(currentPosition) && colour.isBlack()));
 	}
 	
 }

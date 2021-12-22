@@ -80,11 +80,11 @@ public class Bishop extends ChessPiece {
 	 * For example, consider if you're at a4 and you apply the +7 offset. You'd want this to take you to b3 but instead
 	 * it takes you to h4. I deal with the edge cases as shown below. */
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.FIRST_COLUMN[currentPosition] && (offset == -9 || offset ==7);
+		return BoardUtils.FIRST_COLUMN.get(currentPosition) && (offset == -9 || offset ==7);
 	}
 	
 	private static boolean isEighthColumnExclusion(final int currentPosition, final int offset) {
-		return BoardUtils.EIGHTH_COLUMN[currentPosition] && (offset == -7 || offset ==9);
+		return BoardUtils.EIGHTH_COLUMN.get(currentPosition) && (offset == -7 || offset ==9);
 	}
 
 }

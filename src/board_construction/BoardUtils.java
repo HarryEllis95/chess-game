@@ -15,43 +15,49 @@ public class BoardUtils {
 	public static final int TILES_IN_COL = 8;
 	
 	// boolean arrays used for handling the column exclusions 
-	public static final boolean[] FIRST_COLUMN = initialiseColumn(0);
-	public static final boolean[] SECOND_COLUMN = initialiseColumn(1);
-	public static final boolean[] SEVENTH_COLUMN = initialiseColumn(6);
-	public static final boolean[] EIGHTH_COLUMN = initialiseColumn(7);
+	public static final List<Boolean> FIRST_COLUMN = initialiseColumn(0);
+	public static final List<Boolean> SECOND_COLUMN = initialiseColumn(1);
+	public static final List<Boolean> SEVENTH_COLUMN = initialiseColumn(6);
+	public static final List<Boolean> EIGHTH_COLUMN = initialiseColumn(7);
 	
-	public static final boolean[] EIGHTH_RANK = initialiseRow(0);    // tile id that begins the row
-	public static final boolean[] SEVENTH_RANK = initialiseRow(8);  
-	public static final boolean[] SIXTH_RANK = initialiseRow(16);
-	public static final boolean[] FIFTH_RANK = initialiseRow(24);
-	public static final boolean[] FOURTH_RANK = initialiseRow(32);
-	public static final boolean[] THIRD_RANK = initialiseRow(40);
-	public static final boolean[] SECOND_RANK = initialiseRow(48);
-	public static final boolean[] FIRST_RANK = initialiseRow(56);
+	public static final List<Boolean> EIGHTH_RANK = initialiseRow(56);    // tile id that begins the row
+	public static final List<Boolean> SEVENTH_RANK = initialiseRow(48);  
+	public static final List<Boolean> SIXTH_RANK = initialiseRow(40);
+	public static final List<Boolean> FIFTH_RANK = initialiseRow(32);
+	public static final List<Boolean> FOURTH_RANK = initialiseRow(24);
+	public static final List<Boolean> THIRD_RANK = initialiseRow(16);
+	public static final List<Boolean> SECOND_RANK = initialiseRow(8);
+	public static final List<Boolean> FIRST_RANK = initialiseRow(0);
 	
 	public static final List<String> ALGEBRAIC_NOTATION = initAlgebraicNotation();
 	public static final Map<String, Integer> POSITION_TO_COORDINATE = initPositionToCoordinateMap();
 
 	
 	
-	private static boolean[] initialiseColumn(int columnNumber) {
-		final boolean[] column = new boolean[NUM_TILES];
-		do { 
-			column[columnNumber] = true;
-			columnNumber += TILES_IN_ROW;
-		} while(columnNumber < NUM_TILES);
+	private static List<Boolean> initialiseColumn(int columnNumber) {
+        final Boolean[] column = new Boolean[NUM_TILES];
+        for(int i = 0; i < column.length; i++) {
+            column[i] = false;
+        }
+        do {
+            column[columnNumber] = true;
+            columnNumber += TILES_IN_ROW;
+        } while(columnNumber < NUM_TILES);
 		/* What the above code does is for every tile in the first column, we set the corresponding boolean in the
 		 * column boolean array to true. Note, if we're at a8, doing columnNumber += 8 takes us to a7, and so on */
-		return column;
+		return  Collections.unmodifiableList(Arrays.asList((column)));
 	}
 	
-	private static boolean[] initialiseRow(int rowNumber) {
-		final boolean[] row = new boolean[NUM_TILES];
-		do {
-			row[rowNumber] = true;
-			rowNumber++;
-		} while(rowNumber % TILES_IN_ROW != 0);
-		return row;
+	private static List<Boolean> initialiseRow(int rowNumber) {
+	    final Boolean[] row = new Boolean[NUM_TILES];
+        for(int i = 0; i < row.length; i++) {
+            row[i] = false;
+        }
+        do {
+            row[rowNumber] = true;
+            rowNumber++;
+        } while(rowNumber % TILES_IN_ROW != 0);
+        return Collections.unmodifiableList(Arrays.asList(row));
 	}
 	
 	/* These next 2 methods are useful in the toString() method of the move class, where they are used to get tile index
