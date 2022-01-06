@@ -54,7 +54,7 @@ public abstract class ChessTile {
 		}
 		
 		@Override public ChessPiece getPiece() {
-			return null;
+			return null;  // no piece on an empty tile
 		}
 	}	
 	

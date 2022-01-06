@@ -80,7 +80,8 @@ public class Board {
 		    return Collections.unmodifiableList(allAllowedMoves);
 		}
 		
-	
+	/* Each piece has it's own determineAllowedMoves class. We loop through the pieces and call this method, 
+	 * collecting the results, to give as all allowed moves on the current board */
 	private Collection<Move> determineAllowedMoves(final Collection<ChessPiece> pieces) {
 		final List<Move> allowedMoves = new ArrayList<>();
 		for(final ChessPiece piece : pieces) {

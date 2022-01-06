@@ -21,12 +21,11 @@ public class Queen extends ChessPiece {
 		super(PieceType.QUEEN, piecePosition, pieceColour, isFirstMove);
 	}
 	
-	@Override public String toString() {
-		return PieceType.QUEEN.toString();
-	}
-	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -8, -7, -1, 1, 7, 8, 9};  // union of Rook and Bishop
 	
+	@Override public String toString() {
+		return this.pieceType.toString();
+	}
 	
 	@Override public Queen movePiece(final Move move) {
 		// Here we create the new queen, in the new location
@@ -35,18 +34,35 @@ public class Queen extends ChessPiece {
 	
 	
 	/* Having coded the classes governing the mechanics of the Rook and Bishop, the Queen class is then straightforward
-	 * as it is simply a union of those two piece's moves. */	
+	 * to understand as it is simply a union of those two piece's moves. */	
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
-	    
-	    final Collection<Move> equivalentRookMoves = new Rook(this.getPieceColour(), 
-	    		this.getPiecePosition()).determineAllowedMoves(board);
-	    final Collection<Move> equivalentBishopMoves = new Bishop(this.getPieceColour(), 
-	    		this.getPiecePosition()).determineAllowedMoves(board);
-	    
-	    final List<Move> allowedMoves = new ArrayList<>(equivalentRookMoves);
-	    allowedMoves.addAll(equivalentBishopMoves);
-
-	    return Collections.unmodifiableList(allowedMoves);
+		
+        final List<Move> allowedMoves = new ArrayList<>();
+        
+        for (final int pos : POTENTIAL_MOVE_COORDS) {
+            int potentialFinalCoord = this.piecePosition;
+            while (BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
+                if (isFirstColumnExclusion(potentialFinalCoord, pos) ||
+                		isEighthColumnExclusion(potentialFinalCoord, pos)) {
+                    break;
+                }
+                potentialFinalCoord += pos;
+                if (BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
+    				final ChessTile potentialFinalTile = board.getTile(potentialFinalCoord);
+    				if(!potentialFinalTile.isTileOccupied()) {
+                    	allowedMoves.add(new Move.NonTakingMove(board, this, potentialFinalCoord));  
+    				} else {
+    					final ChessPiece pieceAtDestination = potentialFinalTile.getPiece();
+                        final PieceColour pieceAtDestinationAllegiance = pieceAtDestination.getPieceColour();
+                        if (this.pieceColour != pieceAtDestinationAllegiance) {
+    						allowedMoves.add(new Move.MajorTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return Collections.unmodifiableList(allowedMoves);
 	}
 	
 	

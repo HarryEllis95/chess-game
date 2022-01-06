@@ -17,13 +17,12 @@ public class Bishop extends ChessPiece {
 		super(PieceType.BISHOP, piecePosition, pieceColour, isFirstMove);
 	}
 	
-	@Override public String toString() {
-		return PieceType.BISHOP.toString();
-	}
-	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -7, 7, 9};
 	// These represent potentially allowed relative offsets (there's 4 allowed vectors in which bishop can move)
 	
+	@Override public String toString() {
+		return this.pieceType.toString();
+	}
 	
 	@Override public Bishop movePiece(final Move move) {
 		// Here we create the new bishop, in the new location
@@ -31,6 +30,7 @@ public class Bishop extends ChessPiece {
 	}
 	
 	
+	// Calculate and return the collection of allowed Bishop moves - called in board when compiling all allowed moves 
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 		
 		final List<Move> allowedMoves = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Bishop extends ChessPiece {
 			
 			int potentialFinalCoord = this.piecePosition;
 			
-			while(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {  // checks we're within the board's constraints
+			while(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {  // check we are still within board's constraints
 				
 				// Edge constraint tests, see methods at the bottom of this class
 				if(isFirstColumnExclusion(potentialFinalCoord, pos) || isEighthColumnExclusion(potentialFinalCoord, pos)) {
@@ -49,8 +49,7 @@ public class Bishop extends ChessPiece {
 				potentialFinalCoord += pos;  // apply offset to the position
 				
 				if(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
-					final ChessTile potentialFinalTile = board.getTile(potentialFinalCoord);		
-					
+					final ChessTile potentialFinalTile = board.getTile(potentialFinalCoord);							
 					if(!potentialFinalTile.isTileOccupied()) {
 						allowedMoves.add(new Move.NonTakingMove(board, this, potentialFinalCoord));      
 						// allowed move as the tile the Bishop is moving to is not occupied

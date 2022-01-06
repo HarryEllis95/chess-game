@@ -10,10 +10,6 @@ import board_construction.BoardUtils;
 
 public class Knight extends ChessPiece {
 	
-	@Override public String toString() {
-		return PieceType.KNIGHT.toString();
-	}
-	
 	/* When considering the legal moves for a knight, there are (at most) 8 potential positions to move to from
 	 * current position. */
 	private final static int[] POTENTIAL_MOVE_COORDS = {-17, -15, -10, -6, 6, 10, 15, 17};
@@ -28,6 +24,9 @@ public class Knight extends ChessPiece {
 		super(PieceType.KNIGHT, piecePosition, pieceColour, isFirstMove);
 	}
 	
+	@Override public String toString() {
+		return this.pieceType.toString();
+	}
 	
 	@Override public Knight movePiece(final Move move) {
 		// Here we create the new knight, in the new location

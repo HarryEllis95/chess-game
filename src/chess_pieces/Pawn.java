@@ -10,8 +10,6 @@ import board_construction.BoardUtils;
 import chess_pieces.ChessPiece.PieceType;
 
 public class Pawn extends ChessPiece {
-	
-	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16, 7, 9};
 
 	public Pawn(PieceColour pieceColour, final int piecePosition) {
 		super(PieceType.PAWN, piecePosition, pieceColour, true);
@@ -21,6 +19,8 @@ public class Pawn extends ChessPiece {
 		super(PieceType.PAWN, piecePosition, pieceColour, isFirstMove);
 	}
 	
+	private final static int[] POTENTIAL_MOVE_COORDS = {8, 16, 7, 9};
+	
 	/* Currently in my chess engine, pawns will be automatically promoted to a queen. Implementing the ability for the user
 	 * to choose the promotion piece in the gui is a fair amount of extra code for such a rare circumstance, so this is not 
 	 * something I have coded yet, for simplicity. I plan on implementing this in the near future.  */
@@ -29,7 +29,7 @@ public class Pawn extends ChessPiece {
 	}
 	
 	@Override public String toString() {
-		return PieceType.PAWN.toString();
+		return this.pieceType.toString();
 	}
 	
 	@Override public Pawn movePiece(final Move move) {
@@ -67,7 +67,6 @@ public class Pawn extends ChessPiece {
 			} else if(pos == 16 && this.isFirstMove() && 
 					((BoardUtils.SECOND_RANK.get(this.piecePosition) && this.pieceColour.isBlack()) || 
 					(BoardUtils.SEVENTH_RANK.get(this.piecePosition) && this.pieceColour.isWhite()))) {
-				System.out.println("I reached here");
 				final int behindPotentialFinalCoord = this.piecePosition + (this.pieceColour.getDirection() * 8);
 				// Make sure the pawn is in it's starting position and the tile it's jumping to is not occupied
 				if(!board.getTile(behindPotentialFinalCoord).isTileOccupied() && 
@@ -91,35 +90,28 @@ public class Pawn extends ChessPiece {
 							}
 						}
 						/* Here I deal with the case where we have an EnPassant Pawn */
-					} else if(board.getEnPassantPawn() != null) {
-						
-						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition + 
-								(-this.pieceColour.getDirection()))) {
-							final ChessPiece pieceOnPos = board.getEnPassantPawn();
-							
+					} else if(board.getEnPassantPawn() != null && board.getEnPassantPawn().getPiecePosition()
+							== (this.piecePosition + (-this.pieceColour.getDirection()))) {
+							final ChessPiece pieceOnPos = board.getEnPassantPawn();					
 							if(this.pieceColour != pieceOnPos.getPieceColour()) {
 								allowedMoves.add(new Move.PawnEnPassantTakingMove(board, this, potentialFinalCoord, pieceOnPos));
 							}
 						}
-					}
-					
-				} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN.get(this.piecePosition) && this.pieceColour.isWhite()) ||
-						BoardUtils.EIGHTH_COLUMN.get(this.piecePosition) && this.pieceColour.isBlack())){
-
-					if(board.getTile(potentialFinalCoord).isTileOccupied()) {
+					} else if(pos == 9 && !((BoardUtils.FIRST_COLUMN.get(this.piecePosition) && this.pieceColour.isWhite()) ||
+						BoardUtils.EIGHTH_COLUMN.get(this.piecePosition) && this.pieceColour.isBlack())) {
+						if(board.getTile(potentialFinalCoord).isTileOccupied()) {
 						
-						final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
+							final ChessPiece pieceAtDestination = board.getTile(potentialFinalCoord).getPiece();
 						
-						if(this.pieceColour != pieceAtDestination.getPieceColour()) {			
-							if(this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
-								allowedMoves.add(new Move.PawnPromotion(
-										new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination)));
-							} else {
-								allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+							if(this.pieceColour != pieceAtDestination.getPieceColour()) {			
+								if(this.pieceColour.isPawnPromotionSquare(potentialFinalCoord)) {
+									allowedMoves.add(new Move.PawnPromotion(
+											new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination)));
+								} else {
+									allowedMoves.add(new Move.PawnTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+								}
 							}
-						}
-						
-					} else if(board.getEnPassantPawn() != null) {
+						} else if(board.getEnPassantPawn() != null) {
 						
 						if(board.getEnPassantPawn().getPiecePosition() == (this.piecePosition - 
 								(-this.pieceColour.getDirection()))) {						

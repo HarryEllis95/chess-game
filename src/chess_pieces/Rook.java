@@ -16,12 +16,12 @@ public class Rook extends ChessPiece {
 		super(PieceType.ROOK, piecePosition, pieceColour, isFirstMove);
 	}
 	
-	@Override public String toString() {
-		return PieceType.ROOK.toString();
-	}
-	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-8, -1, 1, 8};
+	// These represent potentially allowed relative offsets (there's 4 allowed vectors in which rook can move)
 	
+	@Override public String toString() {
+		return this.pieceType.toString();
+	}
 	
 	@Override public Rook movePiece(final Move move) {
 		// Here we create the new rook, in the new location
@@ -38,14 +38,12 @@ public class Rook extends ChessPiece {
 			
 			int potentialFinalCoord = this.piecePosition;
 			
-			while(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) { 
+			while(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) { // check we are still within board's constraints
 				
 				if(isFirstColumnExclusion(potentialFinalCoord, pos) || isEighthColumnExclusion(potentialFinalCoord, pos)) {
 					break;
 				}
-				
 				potentialFinalCoord += pos;  
-				
 				if(BoardUtils.isValidTileCoordinate(potentialFinalCoord)) {
 					final ChessTile potentialFinalTile = board.getTile(potentialFinalCoord);		
 					

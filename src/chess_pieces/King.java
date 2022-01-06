@@ -19,12 +19,12 @@ public class King extends ChessPiece {
 		super(PieceType.KING, piecePosition, pieceColour, isFirstMove);
 	}
 	
-	@Override public String toString() {
-		return PieceType.KING.toString();
-	}
-	
 	private final static int[] POTENTIAL_MOVE_COORDS = {-9, -8, -7, -1, 1, 7, 8, 9};
+	// These represent potentially allowed relative offsets (there's 8 tiles to which King can move)
 	
+	@Override public String toString() {
+		return this.pieceType.toString();
+	}
 	
 	@Override public King movePiece(final Move move) {
 		// Here we create the new king, in the new location
@@ -32,6 +32,7 @@ public class King extends ChessPiece {
 	}
 	
 	
+	// Calculate and return the collection of allowed King moves - called in board when compiling all allowed moves 
 	@Override public Collection<Move> determineAllowedMoves(Board board) {
 		
 		final List<Move> allowedMoves = new ArrayList<>();
@@ -40,6 +41,7 @@ public class King extends ChessPiece {
 			
 			int potentialFinalCoord = this.piecePosition + pos;
 			
+				// Edge constraint tests, see methods at the bottom of this class
 			if(isFirstColumnExclusion(this.piecePosition, pos) || isEighthColumnExclusion(this.piecePosition, pos)) {
 				continue;
 			}
@@ -55,12 +57,12 @@ public class King extends ChessPiece {
 					
 					if(this.pieceColour != pieceColour) {
 						allowedMoves.add(new Move.MajorTakingMove(board, this, potentialFinalCoord, pieceAtDestination));
+						}
 					}
 				}
-			}
-		}
-		return Collections.unmodifiableList(allowedMoves);
-	}
+			}	
+	    return Collections.unmodifiableList(allowedMoves);
+	    }
 	
 	private static boolean isFirstColumnExclusion(final int currentPosition, final int offset) {
 		return BoardUtils.FIRST_COLUMN.get(currentPosition) && ((offset == -9) || (offset == -1) || (offset == 7)); 
