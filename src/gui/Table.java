@@ -128,8 +128,8 @@ public class Table {
 		return preferencesMenu;
 	}
 	
-	public enum BoardDirection {
-		
+	
+	public enum BoardDirection {	
 		NORMAL {
 			@Override List<TilePanel> traverse(final List<TilePanel> boardTiles) {
 				return boardTiles;
@@ -150,6 +150,12 @@ public class Table {
 		
 		abstract List<TilePanel> traverse(final List<TilePanel> boardTiles);
 		abstract BoardDirection opposite();
+	}
+	
+	
+	public enum PlayerType {
+		HUMAN, 
+		COMPUTER
 	}
 	
 	
