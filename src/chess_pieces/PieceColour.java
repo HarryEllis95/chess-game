@@ -19,14 +19,15 @@ public enum PieceColour {
 		public boolean isWhite() {
 			return true;
 		}
-		@Override
-		public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
+		@Override public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
 			return whitePlayer;
 		}
-		@Override
-		public boolean isPawnPromotionSquare(int pos) {
+		@Override public boolean isPawnPromotionSquare(int pos) {
 			return BoardUtils.EIGHTH_RANK.get(pos);
 		}
+		@Override public String toString() {
+			return "White";
+			}
 	}, 
 	
 	BLACK {
@@ -47,6 +48,9 @@ public enum PieceColour {
 		public boolean isPawnPromotionSquare(int pos) {
 			return BoardUtils.FIRST_RANK.get(pos);
 		}
+		@Override public String toString() {
+			return "Black";
+			}
 	};
 	
 	public abstract int getDirection();    

@@ -13,9 +13,11 @@ import chess_pieces.Move;
 public class MiniMax implements MoveTheory {
 	
 	private final BoardEvaluator boardEvaluator;
+	private final int depth;
 	
-	public MiniMax() {
-		this.boardEvaluator = new StandardBoardEvaluator;
+	public MiniMax(final int depth) {
+		this.boardEvaluator = new StandardBoardEvaluator();
+		this.depth = depth;
 	}
 	
 	@Override public String toString() {
@@ -23,8 +25,7 @@ public class MiniMax implements MoveTheory {
 	}
 	
 	
-	@Override public Move execute(Board board, int depth) {
-		
+	@Override public Move execute(Board board) {
 		final long startTime = System.currentTimeMillis();
 		Move bestMove = null;
 		
@@ -32,7 +33,7 @@ public class MiniMax implements MoveTheory {
 		int lowestSeenValue = Integer.MAX_VALUE;
 		int currentValue;
 		
-		System.out.println(board.currentPlayer() + " CALCULATING with a depth of : " + depth);
+		System.out.println(board.currentPlayer() + " CALCULATING with a depth of : " + this.depth);
 		
 		int numMoves = board.currentPlayer().getAllowedMoves().size();
 		
@@ -43,7 +44,8 @@ public class MiniMax implements MoveTheory {
 			if(boardTransform.getMoveStatus().isDone()) {
 				// Begin recursion, using ternary operator to determine which method we need to call 
 				currentValue = board.currentPlayer().getColour().isWhite() ? 
-						min(boardTransform.getTransformedBoard(), depth - 1) : max(boardTransform.getTransformedBoard(), depth - 1);
+						min(boardTransform.getTransformedBoard(), this.depth - 1) : 
+							max(boardTransform.getTransformedBoard(), this.depth - 1);
 				
 				if(board.currentPlayer().getColour().isWhite() && currentValue >= highestSeenValue) {
 					highestSeenValue = currentValue;
@@ -61,7 +63,7 @@ public class MiniMax implements MoveTheory {
 	
 	// Notice the recursive behaviour - min calls max and max calls min. 
 	public int min(final Board board, final int depth) {
-		if(depth == 0) {
+		if(depth == 0 || isEndGameScenario(board)) {
 			return this.boardEvaluator.evaluate(board, depth);
 		}
 		int lowestSeenValue = Integer.MAX_VALUE;  // We give this an initial arbitrarily high value
@@ -80,7 +82,7 @@ public class MiniMax implements MoveTheory {
 	}
 	
 	public int max(final Board board, final int depth) {
-		if(depth == 0) {
+		if(depth == 0 || isEndGameScenario(board)) {
 			return this.boardEvaluator.evaluate(board, depth);
 		}
 		int highestSeenValue = Integer.MIN_VALUE;
@@ -94,6 +96,10 @@ public class MiniMax implements MoveTheory {
 			}
 		}
 		return highestSeenValue;
+	}
+	
+	private static boolean isEndGameScenario(final Board board) {
+		return board.currentPlayer().isInCheckMate() || board.currentPlayer().isInStalemate();
 	}
 
 }

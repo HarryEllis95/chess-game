@@ -5,6 +5,6 @@ import chess_pieces.Move;
 
 public interface MoveTheory {
 
-	Move execute(Board board, int depth);
+	Move execute(Board board);
 	
 }

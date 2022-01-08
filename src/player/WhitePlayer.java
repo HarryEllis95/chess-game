@@ -30,6 +30,10 @@ public class WhitePlayer extends Player {
 	@Override public Player getOpponent() {
 		return this.board.blackPlayer();
 	}
+	
+	@Override public String toString() {
+		return PieceColour.WHITE.toString();
+	}
 
 	@Override
 	protected Collection<Move> calculateCastles(Collection<Move> playersAllowed, Collection<Move> opponentsAllowed) {
