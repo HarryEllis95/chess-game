@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import com.google.common.primitives.Ints;
 
 import chess_pieces.ChessPiece;
 import chess_pieces.Move;
@@ -75,13 +75,13 @@ public class TakenPiecesDisplay extends JPanel {
 		// implement a comparator to sort the pieces based on piece value
 		Collections.sort(whiteTakenPieces, new Comparator<ChessPiece>() {
 			@Override public int compare(ChessPiece p1, ChessPiece p2) {
-				return Ints.compare(p1.getPieceValue(), p2.getPieceValue());
+				return Integer.compare(p1.getPieceValue(), p2.getPieceValue());
 			}
 		});
 		
 		Collections.sort(whiteTakenPieces, new Comparator<ChessPiece>() {
 			@Override public int compare(ChessPiece p1, ChessPiece p2) {
-				return Ints.compare(p1.getPieceValue(), p2.getPieceValue());
+				return Integer.compare(p1.getPieceValue(), p2.getPieceValue());
 			}
 		});
 		
@@ -90,9 +90,11 @@ public class TakenPiecesDisplay extends JPanel {
 				System.out.println(defaultPieceImagesPath + 
 						takenPiece.getPieceColour().toString().substring(0, 1) + "" + takenPiece.toString());
 				final BufferedImage image = ImageIO.read(new File(defaultPieceImagesPath + 
-						takenPiece.getPieceColour().toString().substring(0, 1) + "" + takenPiece.toString()));
-				final ImageIcon ico = new ImageIcon(image);
-				final JLabel imageLabel = new JLabel();
+						takenPiece.getPieceColour().toString().substring(0, 1) + "" + takenPiece.toString() + ".gif"));
+				final ImageIcon ic = new ImageIcon(image);
+				final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
+                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                this.southPanel.add(imageLabel);
 			} catch(final IOException e) {
 				e.printStackTrace();
 			}
@@ -101,14 +103,15 @@ public class TakenPiecesDisplay extends JPanel {
 		for(final ChessPiece takenPiece : blackTakenPieces) {
 			try {
 				final BufferedImage image = ImageIO.read(new File(defaultPieceImagesPath + 
-						takenPiece.getPieceColour().toString().substring(0, 1) + "" + takenPiece.toString()));
-				final ImageIcon ico = new ImageIcon(image);
-				final JLabel imageLabel = new JLabel();
+						takenPiece.getPieceColour().toString().substring(0, 1) + "" + takenPiece.toString() + ".gif"));
+				final ImageIcon ic = new ImageIcon(image);
+				final JLabel imageLabel = new JLabel(new ImageIcon(ic.getImage().getScaledInstance(
+                        ic.getIconWidth() - 15, ic.getIconWidth() - 15, Image.SCALE_SMOOTH)));
+                this.northPanel.add(imageLabel);
 			} catch(final IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
 		validate();
 		
 	}
