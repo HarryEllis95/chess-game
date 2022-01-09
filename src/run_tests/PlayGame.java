@@ -11,8 +11,6 @@ public class PlayGame {
 		Board board = Board.createBoard();
 		System.out.println(board);
 		
-		System.out.println(board.currentPlayer().getAllowedMoves().size());
-		System.out.println(board.getAllAllowedMoves());
-	    Table table = new Table();
+	    Table.get().show();
 	}
 }
